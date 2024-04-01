@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="../src/app/globals.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">Cuentas</a></li>
+            <li><a href="#">Contratos</a></li>
+            <li><a href="logIn.html">Iniciar sesión</a></li>
+            <li><a href="perfil_usuario.html">Perfil</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Iniciar sesión</h2>
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" placeholder="Ingrese su usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Acceder</button>
+            </div>
+        </form>
+        <div class="register-link">
+            <p>¿No tienes una cuenta? <a href="registro.html">Regístrate</a></p>
+        </div>
+    </div>
+</body>
+</html>

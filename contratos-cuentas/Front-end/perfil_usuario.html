@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="../Front-end/estilos/estilos_perfil_usuario.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">Cuentas</a></li>
+            <li><a href="#">Contratos</a></li>
+            <li><a href="logIn.html">Iniciar sesión</a></li>
+            <li><a href="perfil_usuario.html">Perfil</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2 class="title">Perfil</h2>
+        <div class="field-container">
+            <label class="label" for="nombre">Nombre</label>
+            <label id="nombre" class="input-label">John Doe</label>
+            <button>Cambiar</button>
+        </div>
+        <div class="field-container">
+            <label class="label" for="email">Correo Electrónico</label>
+            <label id="email" class="input-label">johndoe@example.com</label>
+            <button>Cambiar</button>
+        </div>
+        <div class="field-container">
+            <label class="label" for="password">Contraseña</label>
+            <label id="password" class="input-label">********</label>
+            <button class="submit-button" onclick="window.location.href='cambiar_contrasena.html'">Cambiar</button>
+
+        </div>
+    </div>
+</body>
+</html>
