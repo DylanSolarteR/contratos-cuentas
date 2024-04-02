@@ -3,6 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "../lib/theme-utils";
 import { AppWrapper } from "@/context";
 
+import Navbar from "@/components/Navbar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -17,7 +19,10 @@ export default function RootLayout({ children }) {
         <body
           className={`${inter.className} bg-light-fondo dark:bg-dark-fondo`}
         >
-          <AppWrapper>{children}</AppWrapper>
+          <AppWrapper>
+            <Navbar />
+            {children}
+          </AppWrapper>
         </body>
       </ThemeProvider>
     </html>

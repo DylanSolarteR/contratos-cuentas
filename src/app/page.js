@@ -1,6 +1,5 @@
 "use client";
 import { useAppContext } from "@/context";
-import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -10,12 +9,11 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar />
       <main
         className={`flex h-full flex-col items-center px-10 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo`}
       >
         <h1
-          className={`text-3xl md:text-5xl font-bold py-2 md:py-10 max-w-7xl w-full text-center mx-auto ${
+          className={`text-3xl md:text-5xl font-bold py-2 md:py-10 max-w-7xl w-full text-center mx-auto text-shadow-sm ${
             daltonismo === "normal"
               ? "text-light-texto dark:text-dark-texto"
               : daltonismo === "protanopia"
@@ -23,6 +21,16 @@ export default function Home() {
               : daltonismo === "deuteranopia"
               ? "text-deuteranopia-light-texto dark:text-deuteranopia-dark-texto"
               : "text-tritanopia-light-texto dark:text-tritanopia-dark-texto"
+          }
+          
+          ${
+            daltonismo === "normal"
+              ? " shadow-light-acento-2 dark:shadow-dark-acento-2"
+              : daltonismo === "protanopia"
+              ? "shadow-protanopia-light-acento-2 dark:shadow-protanopia-dark-acento-2"
+              : daltonismo === "deuteranopia"
+              ? "shadow-deuteranopia-light-acento-2 dark:shadow-deuteranopia-dark-acento-2"
+              : "shadow-tritanopia-light-acento-2 dark:shadow-tritanopia-dark-acento-2"
           }`}
         >
           Contratos y Cuentas de Cobro
@@ -34,12 +42,28 @@ export default function Home() {
           width={1280}
           height={1000}
           sizes="(min-width: 1040px) 800px, calc(96.11vw - 180px)"
-          className={`rounded-sm mx-auto shadow-lg`}
+          className={`rounded-sm mx-auto shadow-md ${
+            daltonismo === "normal"
+              ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+              : daltonismo === "protanopia"
+              ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+              : daltonismo === "deuteranopia"
+              ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+              : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+          }`}
           priority={true}
         />
 
         <h2
-          className={`text-base md:text-3xl py-6 sm:py-5 md:py-10 max-w-7xl w-full text-center mx-auto rounded `}
+          className={`text-base md:text-3xl py-6 sm:py-5 md:py-10 max-w-7xl w-full text-center mx-auto rounded text-shadow ${
+            daltonismo === "normal"
+              ? " shadow-light-acento-2 dark:shadow-dark-acento-2"
+              : daltonismo === "protanopia"
+              ? "shadow-protanopia-light-acento-2 dark:shadow-protanopia-dark-acento-2"
+              : daltonismo === "deuteranopia"
+              ? "shadow-deuteranopia-light-acento-2 dark:shadow-deuteranopia-dark-acento-2"
+              : "shadow-tritanopia-light-acento-2 dark:shadow-tritanopia-dark-acento-2"
+          } `}
         >
           Una solución práctica para la gestion de tus contratos y cuentas
         </h2>
@@ -70,7 +94,15 @@ export default function Home() {
             <Image
               src="https://img.freepik.com/vector-premium/documento-electronico-papel-electronico-oficina-papel-articulo-internet-escribir-archivo-texto-computadora_566886-2358.jpg?w=1380"
               alt="Land2"
-              className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow`}
+              className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow-md ${
+                daltonismo === "normal"
+                  ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                  : daltonismo === "protanopia"
+                  ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                  : daltonismo === "deuteranopia"
+                  ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                  : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+              }`}
               width={1280}
               height={1000}
               priority={true}
@@ -93,7 +125,15 @@ export default function Home() {
             <Image
               src="https://www.bizneo.com/blog/wp-content/uploads/2023/05/nota-de-gastos-810x455.jpg"
               alt="Land2"
-              className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow`}
+              className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow-md ${
+                daltonismo === "normal"
+                  ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                  : daltonismo === "protanopia"
+                  ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                  : daltonismo === "deuteranopia"
+                  ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                  : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+              }`}
               width={1280}
               height={400}
               priority={true}
@@ -116,7 +156,15 @@ export default function Home() {
             <Image
               src="https://blog.ida.cl/wp-content/uploads/sites/5/2021/04/ExportarPosts-blog-655x470.png"
               alt="Land2"
-              className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow`}
+              className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow-md ${
+                daltonismo === "normal"
+                  ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                  : daltonismo === "protanopia"
+                  ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                  : daltonismo === "deuteranopia"
+                  ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                  : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+              }`}
               width={1280}
               height={1000}
               priority={true}
@@ -158,15 +206,7 @@ export default function Home() {
             <Link href={"/login"}>
               <Button
                 variant="default"
-                className={`w-fit h-fit max-w-[100%] md:text-4xl text-2xl p-2 font-extrabold  ${
-                  daltonismo === "normal"
-                    ? "bg-light-acento-2  dark:bg-dark-acento-2"
-                    : daltonismo === "protanopia"
-                    ? "bg-protanopia-light-acento-2 dark:bg-protanopia-dark-acento-2"
-                    : daltonismo === "deuteranopia"
-                    ? "bg-deuteranopia-light-acento-2 dark:bg-deuteranopia-dark-acento-2"
-                    : "bg-tritanopia-light-acento-2 dark:bg-tritanopia-dark-acento-2"
-                } `}
+                className={`w-fit h-fit max-w-[100%] md:text-4xl text-2xl p-2 font-extrabold bg-light-fondo  dark:bg-dark-fondo shadow-lg shadow-light-texto dark:shadow-dark-texto`}
               >
                 ¡Comienza Ya!
               </Button>
