@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Table,
@@ -9,11 +9,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 import { useAppContext } from "@/context";
-import { ArrowDownToLine } from "lucide-react";
-import { Eye } from "lucide-react";
+import { ArrowDownToLine, Pencil, Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const contratos = [
   {
@@ -93,41 +93,96 @@ const contratos = [
   },
 ];
 
-
 export default function Historialcontratos() {
-
   const { daltonismo } = useAppContext();
   return (
-    <div className=" w-scrren h-screen pt-8">
-      <main className={`flex h-full flex-col items-center px-10 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo${daltonismo === "normal"
-        ? "text-light-texto shadow-light-acento-2 dark:text-dark-texto dark:shadow-dark-acento-2  bg-light-fondo dark:bg-dark-fondo"
-        : daltonismo === "protanopia"
-          ? "text-protanopia-light-texto shadow-protanopia-light-acento-2 dark:text-protanopia-dark-texto dark:shadow-protanopia-dark-acento-2 bg-light-fondo dark:bg-dark-fondo"
-          : daltonismo === "deuteranopia"
+    <div className=" w-screen h-[90vh] pt-8">
+      <main
+        className={`flex h-full flex-col justify-center items-center gap-10 px-10 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo${
+          daltonismo === "normal"
+            ? "text-light-texto shadow-light-acento-2 dark:text-dark-texto dark:shadow-dark-acento-2  bg-light-fondo dark:bg-dark-fondo"
+            : daltonismo === "protanopia"
+            ? "text-protanopia-light-texto shadow-protanopia-light-acento-2 dark:text-protanopia-dark-texto dark:shadow-protanopia-dark-acento-2 bg-light-fondo dark:bg-dark-fondo"
+            : daltonismo === "deuteranopia"
             ? "text-deuteranopia-light-texto shadow-deuteranopia-light-acento-2 dark:text-deuteranopia-dark-texto dark:shadow-deuteranopia-dark-acento-2 bg-light-fondo dark:bg-dark-fondo"
             : "text-tritanopia-light-texto shadow-tritanopia-light-acento-2 dark:text-tritanopia-dark-texto dark:shadow-tritanopia-dark-acento-2 bg-light-fondo dark:bg-dark-fondo"
         }`}
       >
-        <button className="mb-10 shadow-lg p-4 rounded-full">Crear contrato</button>
+        <Button
+          variant="default"
+          className={`md:text-xl text-base py-2 px-4 rounded-full shadow text-balance w-fit h-fit ${
+            daltonismo === "normal"
+              ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+              : daltonismo === "protanopia"
+              ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+              : daltonismo === "deuteranopia"
+              ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+              : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+          }`}
+        >
+          Crear contrato
+        </Button>
         <Table>
-          <TableCaption>Lista de tus contratos recientes.</TableCaption>
-          <TableHeader class="" >
-            <TableRow >
-              <TableHead class="text-center" >Codigo</TableHead>
+          <TableHeader class="">
+            <TableRow
+              className={`hover:bg-transparent dark:hover:bg-transparent border-b-2 ${
+                daltonismo === "normal"
+                  ? "border-b-light-acento-2/50 dark:border-b-dark-acento-2/50"
+                  : daltonismo === "protanopia"
+                  ? "border-b-protanopia-light-acento-2/50 dark:border-b-protanopia-dark-acento-2/50"
+                  : daltonismo === "deuteranopia"
+                  ? "border-b-deuteranopia-light-acento-2/50 dark:border-b-deuteranopia-dark-acento-2/50"
+                  : "border-b-tritanopia-light-acento-2/50 dark:border-b-tritanopia-dark-acento-2/50"
+              }`}
+            >
+              <TableHead class="text-center">Codigo</TableHead>
               <TableHead class="text-center">Cliente</TableHead>
-              <TableHead class="text-center">fecha</TableHead>
-              <TableHead class="text-center" >Acciones</TableHead>
+              <TableHead class="text-center">Fecha</TableHead>
+              <TableHead class="text-center">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody class="text-center">
             {contratos.map((contrato) => (
-              <TableRow key={contrato.codigo}>
+              <TableRow
+                key={contrato.codigo}
+                className={`${
+                  daltonismo === "normal"
+                    ? "hover:bg-light-acento-2/40 hover:dark:bg-dark-acento-2/40"
+                    : daltonismo === "protanopia"
+                    ? "hover:bg-protanopia-light-acento-2/40 hover:dark:bg-protanopia-dark-acento-2/40"
+                    : daltonismo === "deuteranopia"
+                    ? "hover:bg-deuteranopia-light-acento-2/40 hover:dark:bg-deuteranopia-dark-acento-2/40"
+                    : "hover:bg-tritanopia-light-acento-2/40 hover:dark:bg-tritanopia-dark-acento-2/40"
+                } border-none
+              `}
+              >
                 <TableCell className="font-medium">{contrato.codigo}</TableCell>
                 <TableCell>{contrato.cliente}</TableCell>
                 <TableCell>{contrato.fecha}</TableCell>
-                <TableCell>
-                  <button title="Desacrgar archivo" className="mr-5"><ArrowDownToLine></ArrowDownToLine></button>
-                  <button title="Ver archivo"><Eye></Eye></button>
+                <TableCell
+                  className={`text-center flex flex-row justify-center items-center`}
+                >
+                  <Button
+                    variant="link"
+                    className="w-fit h-fit"
+                    title="Descargar archivo"
+                  >
+                    <ArrowDownToLine />
+                  </Button>
+                  <Button
+                    variant="link"
+                    className="w-fit h-fit"
+                    title="Editar archivo"
+                  >
+                    <Pencil />
+                  </Button>
+                  <Button
+                    variant="link"
+                    className="w-fit h-fit"
+                    title="Editar archivo"
+                  >
+                    <Trash />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -135,5 +190,5 @@ export default function Historialcontratos() {
         </Table>
       </main>
     </div>
-  )
+  );
 }

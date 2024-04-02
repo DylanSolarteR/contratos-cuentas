@@ -40,7 +40,7 @@ function Navbar() {
       </div>
 
       <ul
-        className={`md:flex md:flex-row md:flex-grow md:justify-end md:gap-10 md:relative md:order-2 md:px-10 ${
+        className={`md:flex md:flex-row md:flex-grow md:justify-end  md:relative md:order-2 ${
           navListToggle
             ? "text-center flex-col gap-0 items-center order-last"
             : "hidden"
@@ -48,20 +48,30 @@ function Navbar() {
       >
         <li>
           <Link
-            href="/contratos"
+            href="/dashboard"
             className={`${buttonVariants({
               variant: "ghost",
-            })} px-2 text-[1.125rem] font-semibold`}
+            })} lg:px-6 md:px-2 text-[1.125rem] font-semibold`}
+          >
+            Dashboard
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/dashboard/contratos"
+            className={`${buttonVariants({
+              variant: "ghost",
+            })} lg:px-6 md:px-2 text-[1.125rem] font-semibold`}
           >
             Contratos
           </Link>
         </li>
         <li>
           <Link
-            href="/cuentas"
+            href="/dashboard/cuentas"
             className={`${buttonVariants({
               variant: "ghost",
-            })} px-2 text-[1.125rem] font-semibold`}
+            })} lg:px-6 md:px-2 text-[1.125rem] font-semibold`}
           >
             Cuentas de Cobro
           </Link>
@@ -70,7 +80,7 @@ function Navbar() {
 
       <Link
         href="/account"
-        className={`order-2 md:order-last ${
+        className={`order-2 md:order-last flex flex-row justify-center items-center ${
           !navListToggle && "hidden md:flex"
         }`}
       >

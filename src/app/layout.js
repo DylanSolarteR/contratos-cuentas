@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../lib/theme-utils";
 import { AppWrapper } from "@/context";
+import { Toaster } from "@/components/ui/toaster";
 
 import Navbar from "@/components/Navbar";
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
           <AppWrapper>
             <Navbar />
             {children}
+            <Toaster />
           </AppWrapper>
         </body>
       </ThemeProvider>

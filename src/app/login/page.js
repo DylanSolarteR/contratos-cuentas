@@ -22,7 +22,7 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center gap-4">
           <h2 className="text-2xl font-bold">Iniciar sesión</h2>
           <div
-            class={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-4 shadow-md bg-light-fondo dark:bg-dark-fondo dark:shadow-lg border ${
+            class={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-4 shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${
               daltonismo === "normal"
                 ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
                 : daltonismo === "protanopia"
@@ -83,20 +83,22 @@ export default function Home() {
               />
             </div>
             <div className=" flex flex-col justify-center items-center">
-              <Button
-                variant="default"
-                className={`rounded-lg font-semibold shadow ${
-                  daltonismo === "normal"
-                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                    : daltonismo === "protanopia"
-                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                    : daltonismo === "deuteranopia"
-                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
-                }`}
-              >
-                Acceder
-              </Button>
+              <Link href={"/dashboard"}>
+                <Button
+                  variant="default"
+                  className={`rounded-lg font-semibold shadow ${
+                    daltonismo === "normal"
+                      ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                      : daltonismo === "protanopia"
+                      ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                      : daltonismo === "deuteranopia"
+                      ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                      : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                  }`}
+                >
+                  Acceder
+                </Button>
+              </Link>
             </div>
             <div className="flex flex-row justify-center items-center text-center">
               <p>
