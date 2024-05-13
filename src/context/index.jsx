@@ -1,6 +1,5 @@
 "use client";
 import { createContext, useState, useContext, useEffect } from "react";
-import { COLOR_PALETTE } from "@/lib/constants";
 
 const AppContext = createContext();
 
