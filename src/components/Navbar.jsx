@@ -15,15 +15,14 @@ function Navbar() {
   let [navListToggle, setNavListToggle] = useState(false);
   return (
     <nav
-      className={`sticky top-0 z-[9999] flex md:flex-row md:h-fit md:px-36 max-w-full w-full px-6 shadow-sm bg-light-fondo dark:bg-dark-fondo ${
-        daltonismo === "normal"
+      className={`sticky top-0 z-[9999] flex md:flex-row md:h-fit md:px-36 max-w-full w-full px-6 shadow-sm bg-light-fondo dark:bg-dark-fondo ${daltonismo === "normal"
           ? "shadow-light-acento-2 dark:shadow-dark-acento-2"
           : daltonismo === "protanopia"
-          ? "shadow-protanopia-light-acento-2 dark:shadow-protanopia-dark-acento-2"
-          : daltonismo === "deuteranopia"
-          ? "shadow-deuteranopia-light-acento-2 dark:shadow-deuteranopia-dark-acento-2"
-          : "shadow-tritanopia-light-acento-2 dark:shadow-tritanopia-dark-acento-2"
-      } items-center md:justify-between md:gap-4 gap-4 py-1 justify-between flex-col`}
+            ? "shadow-protanopia-light-acento-2 dark:shadow-protanopia-dark-acento-2"
+            : daltonismo === "deuteranopia"
+              ? "shadow-deuteranopia-light-acento-2 dark:shadow-deuteranopia-dark-acento-2"
+              : "shadow-tritanopia-light-acento-2 dark:shadow-tritanopia-dark-acento-2"
+        } items-center md:justify-between md:gap-4 gap-4 py-1 justify-between flex-col`}
     >
       <div className="flex flex-row justify-center items-center order-first gap-2">
         <Button
@@ -40,11 +39,10 @@ function Navbar() {
       </div>
 
       <ul
-        className={`md:flex md:flex-row md:flex-grow md:justify-end  md:relative md:order-2 ${
-          navListToggle
+        className={`md:flex md:flex-row md:flex-grow md:justify-end  md:relative md:order-2 ${navListToggle
             ? "text-center flex-col gap-0 items-center order-last"
             : "hidden"
-        }`}
+          }`}
       >
         <li>
           <Link
@@ -80,9 +78,8 @@ function Navbar() {
 
       <Link
         href="/account"
-        className={`order-2 md:order-last flex flex-row justify-center items-center ${
-          !navListToggle && "hidden md:flex"
-        }`}
+        className={`order-2 md:order-last flex flex-row justify-center items-center ${!navListToggle && "hidden md:flex"
+          }`}
       >
         <Avatar className="border border-light-texto flex justify-center h-7 w-7 scale-105 ">
           <Button
