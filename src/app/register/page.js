@@ -4,9 +4,20 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 export default function Home() {
   const { daltonismo } = useAppContext();
+  const [name, setName] = useState("");
+  const [document, setDocument] = useState("");
+  const [type, setType] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onSubmit = () => {
+    console.log("Envia")
+  };
+
 
   return (
     <div>
@@ -45,12 +56,86 @@ export default function Home() {
             `}
           >
             <div class=" flex flex-col justify-start items-start gap-2">
-              <label className="font-semibold">Usuario</label>
+              <label className="font-semibold">Nombre</label>
               <input
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 type="text"
-                id="username"
-                name="username"
-                placeholder="Ingrese su usuario"
+                id="name"
+                name="name"
+                placeholder="Ingrese su nombre"
+                required
+                className={`text-center rounded-md shadow ${
+                  daltonismo === "normal"
+                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                    : daltonismo === "protanopia"
+                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                    : daltonismo === "deuteranopia"
+                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                }`}
+              />
+              
+            </div>
+            <div class=" flex flex-col justify-start items-start gap-2">
+              <label className="font-semibold">Documento</label>
+              <input
+                onChange={(e) => {
+                  setDocument(e.target.value);
+                }}
+                type="number"
+                id="document"
+                name="document"
+                placeholder="Ingrese su documento"
+                required
+                className={`text-center rounded-md shadow ${
+                  daltonismo === "normal"
+                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                    : daltonismo === "protanopia"
+                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                    : daltonismo === "deuteranopia"
+                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                }`}
+              />
+              
+            </div>
+            <div class="justify-start items-start gap-2">
+              <label className="font-semibold">Tipo</label>
+              <select
+                onChange={(e) => {
+                  setType(e.target.value);
+                }}
+                type="text"
+                id="type"
+                name="type"
+                placeholder="Seleccione el tipo de cuenta "
+                required
+                className={`text-center rounded-md shadow ml-11 ${
+                  daltonismo === "normal"
+                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                    : daltonismo === "protanopia"
+                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                    : daltonismo === "deuteranopia"
+                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                }`}
+              >
+                <option value="persona">Pesona natural</option>
+                <option value="empresa">Persona juridica</option>
+              </select>
+            </div>
+            <div class=" flex flex-col justify-start items-start gap-2">
+              <label className="font-semibold">Correo</label>
+              <input
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Ingrese su correo"
                 required
                 className={`text-center rounded-md shadow ${
                   daltonismo === "normal"
@@ -66,6 +151,9 @@ export default function Home() {
             <div class="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Contraseña</label>
               <input
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
                 type="password"
                 id="password"
                 name="password"
@@ -109,8 +197,8 @@ export default function Home() {
               <Label htmlFor="terms">Acceptar terminos y condiciones</Label>
             </div>
             <div className=" flex flex-col justify-center items-center">
-              <Link href={"/dashboard"}>
                 <Button
+                onClick={onSubmit}
                   variant="default"
                   className={`rounded-lg font-semibold shadow ${
                     daltonismo === "normal"
@@ -124,7 +212,6 @@ export default function Home() {
                 >
                   Registrarse
                 </Button>
-              </Link>
             </div>
             <div className="flex flex-row justify-center items-center text-center">
               <p>
