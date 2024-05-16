@@ -60,7 +60,7 @@ function PlantillaBuilder({ id }) {
         text: 'No se pudo encontrar la plantilla ' + err,
       }).then(() => {
         console.log(err)
-        // router.push('/dashboard')
+        router.push('/dashboard')
       })
     })
     // addItem(0, { id: 'encabezado-1', itemId: "encabezado-1", titulo: 'Encabezado 1', contenido: 'lorem ipsum' })
@@ -88,16 +88,16 @@ function PlantillaBuilder({ id }) {
   const sensors = useSensors(mouseSensor, touchSensor);
 
   function handleGuardarySalir() {
-    itemsIds = items.map((item, index) => {
+    const itemsIds = items.map((item) => {
       return {
         _id: item.itemId
         // , titulo: item.titulo, contenido: item.contenido, tipo: item.tipo 
       }
     })
-    data = {
+    const data = {
       nombre: nombre,
       items: itemsIds,
-      status: plantilla.status
+      status: "borrador"
     }
     updatePlantilla(instance, plantilla._id, data, token).then((res) => {
       if (res === 'error') throw new Error('error')
@@ -105,6 +105,38 @@ function PlantillaBuilder({ id }) {
         icon: 'success',
         title: 'Guardado',
         text: 'La plantilla se ha guardado correctamente',
+      }).then(() => {
+        router.push('/dashboard')
+      })
+    }).catch((err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo guardar la plantilla ' + err,
+      }).then(() => {
+        console.log(err)
+      })
+    })
+  }
+
+  function handleSolicitarAprobacion() {
+    const itemsIds = items.map((item) => {
+      return {
+        _id: item.itemId
+        // , titulo: item.titulo, contenido: item.contenido, tipo: item.tipo 
+      }
+    })
+    const data = {
+      nombre: nombre,
+      items: itemsIds,
+      status: "revision"
+    }
+    updatePlantilla(instance, plantilla._id, data, token).then((res) => {
+      if (res === 'error') throw new Error('error')
+      Swal.fire({
+        icon: 'success',
+        title: 'Guardado',
+        text: 'La plantilla se guardó y se ha enviado a revision correctamente',
       }).then(() => {
         router.push('/dashboard')
       })
@@ -149,7 +181,7 @@ function PlantillaBuilder({ id }) {
             </Button>
             {plantilla.status !== 'aprobada' && (
               <>
-                <Button className="p-2  font-medium border border-light-texto dark:border-dark-texto">
+                <Button onClick={handleSolicitarAprobacion} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
                   Solicitar Aprobacion
                 </Button>
               </>

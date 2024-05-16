@@ -81,6 +81,7 @@ export async function updatePlantilla(axiosInstance, id, data, token) {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response);
     return response.data;
   } catch (error) {
     Swal.fire({

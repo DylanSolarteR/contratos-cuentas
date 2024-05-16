@@ -15,20 +15,40 @@ import Swal from "sweetalert2";
 function ContratoPlantillaCard({ title, estado, idPlantilla }) {
     const router = useRouter()
 
-    console.log(idPlantilla)
     const onEdit = () => {
-        Swal.fire({
-            title: "Editar",
-            text: "Si editas esta plantilla su estado pasara a pediente de aprovacion y no podras generar contratos hasta que sea aprovada",
-            icon: "question",
-            showCancelButton: true,
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Confirmar",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                router.push(`/dashboard/plantillas/${idPlantilla}`)
-            }
-        });
+        if (estado == 'aprobada') {
+
+            Swal.fire({
+                title: "Editar",
+                text: "Si editas esta plantilla su estado pasara a borrador y no podras generar contratos hasta que sea aprovada",
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Continuar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    router.push(`/dashboard/plantillas/${idPlantilla}`)
+                }
+            });
+        }
+        if (estado == 'borrador') {
+            router.push(`/dashboard/plantillas/${idPlantilla}`)
+        }
+        if (estado == 'revision') {
+
+            Swal.fire({
+                title: "Editar",
+                text: "Si editas esta plantilla y guardas los cambios su estado pasara a borrador de nuevo y no podras generar contratos hasta que sea aprovada.",
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Continuar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    router.push(`/dashboard/plantillas/${idPlantilla}`)
+                }
+            });
+        }
     }
     const onGenerate = () => {
         router.push('')
