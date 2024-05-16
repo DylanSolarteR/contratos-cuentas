@@ -5,19 +5,63 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { signUp } from "@/actions/Auth";
 
 export default function Home() {
-  const { daltonismo } = useAppContext();
+  const { daltonismo, instance } = useAppContext();
   const [name, setName] = useState("");
   const [document, setDocument] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState("persona");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
 
   const onSubmit = () => {
-    console.log("Envia")
-  };
 
+    if(password.length > 8 && password == password2){
+      Swal.fire({
+        title: "Enviar",
+        text: "¿Confirmas el registro?",
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          instance
+          .post("/auth/signup", {
+            tipo: type,
+            nombre: name,
+            documento: document,
+            email: email,
+            password: password,
+          })
+          .then((result) => {
+            if (result.status === 200) {
+              localStorage.setItem("token", result.data.token);
+              router.push("/dashboard")
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              title: "Error de inicio de sesión",
+              text: "Datos incorrectos " + err,
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          });
+        }
+      });
+    }else {
+      Swal.fire({
+        title: "Error",
+        text: "Las contraseñas no cumplen con los requisitos",
+        icon: "error",
+      })
+    }
+    
+  };
 
   return (
     <div>
@@ -76,7 +120,6 @@ export default function Home() {
                     : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                 }`}
               />
-              
             </div>
             <div class=" flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Documento</label>
@@ -99,12 +142,13 @@ export default function Home() {
                     : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                 }`}
               />
-              
             </div>
             <div class="justify-start items-start gap-2">
               <label className="font-semibold">Tipo</label>
               <select
+                defaultValue={"persona"}
                 onChange={(e) => {
+                  console.log(e.target.value);
                   setType(e.target.value);
                 }}
                 type="text"
@@ -129,9 +173,9 @@ export default function Home() {
             <div class=" flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Correo</label>
               <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 type="text"
                 id="email"
                 name="email"
@@ -151,9 +195,9 @@ export default function Home() {
             <div class="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Contraseña</label>
               <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 type="password"
                 id="password"
                 name="password"
@@ -176,6 +220,9 @@ export default function Home() {
             <div class="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Confirmar Contraseña</label>
               <input
+              onChange={(e) => {
+                setPassword2(e.target.value);
+              }}
                 type="password"
                 id="password"
                 name="password"
@@ -197,21 +244,21 @@ export default function Home() {
               <Label htmlFor="terms">Acceptar terminos y condiciones</Label>
             </div>
             <div className=" flex flex-col justify-center items-center">
-                <Button
+              <Button
                 onClick={onSubmit}
-                  variant="default"
-                  className={`rounded-lg font-semibold shadow ${
-                    daltonismo === "normal"
-                      ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                      : daltonismo === "protanopia"
-                      ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                      : daltonismo === "deuteranopia"
-                      ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                      : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
-                  }`}
-                >
-                  Registrarse
-                </Button>
+                variant="default"
+                className={`rounded-lg font-semibold shadow ${
+                  daltonismo === "normal"
+                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                    : daltonismo === "protanopia"
+                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                    : daltonismo === "deuteranopia"
+                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                }`}
+              >
+                Registrarse
+              </Button>
             </div>
             <div className="flex flex-row justify-center items-center text-center">
               <p>

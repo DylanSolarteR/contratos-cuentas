@@ -2,10 +2,38 @@
 import { useAppContext } from "@/context";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { login } from "@/actions/Auth";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function Home() {
-  const { daltonismo } = useAppContext();
+  const router = useRouter()
+  const { daltonismo, instance } = useAppContext();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const onSubmit = () => {
+    instance
+      .post("/auth/login", {
+        email: email,
+        password: password,
+      })
+      .then((result) => {
+        if (result.status === 200) {
+          localStorage.setItem("token", result.data.token);
+          router.push("/dashboard")
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Error de inicio de sesión",
+          text: "Datos incorrectos " + err,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      });
+  };
   return (
     <div>
       <main
@@ -45,12 +73,15 @@ export default function Home() {
             `}
           >
             <div class=" flex flex-col justify-start items-start gap-2">
-              <label className="font-semibold">Usuario</label>
+              <label className="font-semibold">Correo</label>
               <input
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 type="text"
-                id="username"
-                name="username"
-                placeholder="Ingrese su usuario"
+                id="email"
+                name="email"
+                placeholder="Ingrese su correo"
                 required
                 className={`text-center rounded-md shadow ${
                   daltonismo === "normal"
@@ -66,6 +97,9 @@ export default function Home() {
             <div class="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Contraseña</label>
               <input
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 type="password"
                 id="password"
                 name="password"
@@ -83,22 +117,21 @@ export default function Home() {
               />
             </div>
             <div className=" flex flex-col justify-center items-center">
-              <Link href={"/dashboard"}>
-                <Button
-                  variant="default"
-                  className={`rounded-lg font-semibold shadow ${
-                    daltonismo === "normal"
-                      ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                      : daltonismo === "protanopia"
-                      ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                      : daltonismo === "deuteranopia"
-                      ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                      : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
-                  }`}
-                >
-                  Acceder
-                </Button>
-              </Link>
+              <Button
+                onClick={onSubmit}
+                variant="default"
+                className={`rounded-lg font-semibold shadow ${
+                  daltonismo === "normal"
+                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                    : daltonismo === "protanopia"
+                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                    : daltonismo === "deuteranopia"
+                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                }`}
+              >
+                Acceder
+              </Button>
             </div>
             <div className="flex flex-row justify-center items-center text-center">
               <p>

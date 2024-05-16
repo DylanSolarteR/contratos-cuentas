@@ -10,8 +10,10 @@ import {
 import { useAppContext } from "@/context"
 import { idGenerator } from "@/lib/idGenerator"
 
+import { addItem } from "@/context/actions/Items"
+
 export function AddClausulaDialog() {
-    const { allItems, addItemNotAdded, addItemToAllItems } = useAppContext()
+    const { allItems, addItemNotAdded, addItemToAllItems, instance } = useAppContext()
 
     return (
         <Dialog className="bg-light-fondo dark:bg-dark-fondo">
@@ -66,12 +68,13 @@ export function AddClausulaDialog() {
                                 >Cancelar</Button>
                                 <Button
                                     className="p-2  font-medium border border-light-texto dark:border-dark-texto"
-                                    onClick={() => {
+                                    onClick={async () => {
                                         //Crear nueva clausula
                                         const titulo = document.querySelector('input[name="titulo-nueva-clausula"]').value
                                         const contenido = document.querySelector('textarea[name="contenido-nueva-clausula"]').value
                                         if (titulo && contenido) {
-                                            const id = idGenerator() //Cambiar esto cuando este el backend
+                                            // const id = idGenerator() //Cambiar esto cuando este el backend
+                                            const result = await addItem(instance, { titulo, tipo:'clausula', contenido }, token)
                                             addItemToAllItems({ id, itemId: id, titulo, contenido })
                                         } else {
                                             alert("Debe completar todos los campos")
