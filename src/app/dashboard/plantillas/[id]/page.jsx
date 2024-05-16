@@ -6,16 +6,6 @@ function BuilderPlanillas({ params }) {
   return (
     <PlantillaBuilder
       id={id}
-    //   plantilla={{nombre:"Plantilla 1", 
-    //   status: "borrador",
-    //   items: [
-    //     {
-    //       titulo: 'Titulo',
-    //       tipo: 'clausula',
-    //       contenido: 'Contenido'
-    //     }
-    //   ]
-    // }}
     />
   );
 }
