@@ -6,8 +6,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter()
   const { daltonismo, instance } = useAppContext();
   const [name, setName] = useState("");
   const [document, setDocument] = useState("");

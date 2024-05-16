@@ -10,10 +10,13 @@ import {
 import { useAppContext } from "@/context"
 import { idGenerator } from "@/lib/idGenerator"
 
-import { addItem } from "@/actions/Items"
+import { addItems, getItems } from "@/actions/Items"
+import { useState } from "react"
 
 export function AddClausulaDialog() {
+
     const { allItems, addItemNotAdded, addItemToAllItems, instance } = useAppContext()
+
 
     return (
         <Dialog className="bg-light-fondo dark:bg-dark-fondo">
@@ -29,7 +32,7 @@ export function AddClausulaDialog() {
                                 <div className="w-full">
 
                                     <DialogTitle className="text-light-texto dark:text-dark-texto font-semibold underline">{item.titulo}</DialogTitle>
-                                    <DialogDescription className="text-ellipsis text-light-texto dark:text-dark-texto">{item.contenido}</DialogDescription>
+                                    <DialogDescription className="flex text-justify text-sm w-full text-wrap overflow-y-auto max-h-40 text-light-texto dark:text-dark-texto">{item.contenido}</DialogDescription>
                                 </div>
                                 <Button
                                     variant="link"
@@ -45,7 +48,6 @@ export function AddClausulaDialog() {
                 )}
                 {allItems.length === 0 && (<>
                     <p>No hay clausulas disponibles</p>
-                    <Button className="p-2  font-medium border border-light-texto dark:border-dark-texto">Crear nueva clausula</Button>
                 </>
                 )}
                 {/* Dialogo para crear nueva clausula */}
@@ -74,7 +76,7 @@ export function AddClausulaDialog() {
                                         const contenido = document.querySelector('textarea[name="contenido-nueva-clausula"]').value
                                         if (titulo && contenido) {
                                             const token = localStorage.getItem('token')
-                                            const result = await addItem(instance, { titulo, tipo: 'clausula', contenido }, token)
+                                            const result = await addItems(instance, { titulo, tipo: 'clausula', contenido }, token)
                                             // console.log(result)
                                             // const id = idGenerator() //Cambiar esto cuando este el backend
                                             addItemToAllItems({ id: result._id, itemId: result._id, titulo: result.titulo, contenido: result.contenido, tipo: 'clausula' })

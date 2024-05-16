@@ -4,76 +4,108 @@ import { createContext, useState, useContext, useEffect } from "react";
 const AppContext = createContext();
 
 export function AppWrapper({ children }) {
-  let [daltonismo, setDaltonismo] = useState("normal");
-  const [items, setItems] = useState([]); //Items de la plantilla actual
-  const [itemsNotAdded, setItemsNotAdded] = useState([]); //Items que no han sido añadidos a la plantilla actual, pero estan en el sidebar
-  const [allItems, setAllItems] = useState([{
-    id: '1111',
-    titulo: "Clausula 1",
-    contenido: "lorem ipsum"
-  },
-  {
-    id: '2222',
-    titulo: "Clausula 2",
-    contenido: "lorem ipsum"
-  },
-  {
-    id: '3333',
-    titulo: "Clausula 3",
-    contenido: "lorem ipsum"
-  }]); //Items de todas las plantillas
-  const [plantillas, setPlantillas] = useState([
-    {
-      nombre: "Plantilla 1",
-      items: [
-        {
-          id: '1111',
-          titulo: "Clausula 1",
-          contenido: "lorem ipsum"
-        },
-        {
-          id: '2222',
-          titulo: "Clausula 2",
-          contenido: "lorem ipsum"
-        },
-        {
-          id: '3333',
-          titulo: "Clausula 3",
-          contenido: "lorem ipsum"
-        }
-      ]
-    },
-    {
-      nombre: "Plantilla 2",
-      items: [
-        {
-          id: '4444',
-          titulo: "Clausula 4",
-          contenido: "lorem ipsum"
-        },
-        {
-          id: '5555',
-          titulo: "Clausula 5",
-          contenido: "lorem ipsum"
-        },
-        {
-          id: '6666',
-          titulo: "Clausula 6",
-          contenido: "lorem ipsum"
-        }
-      ]
-    },
-  ]); //Plantillas
-
   const axios = require('axios').default;
   const instance = axios.create({
     baseURL: 'http://localhost:3001/api/v1',
   });
+  let [daltonismo, setDaltonismo] = useState("normal");
+  const [items, setItems] = useState([]); //Items de la plantilla actual
+  const [itemsNotAdded, setItemsNotAdded] = useState([]); //Items que no han sido añadidos a la plantilla actual, pero estan en el sidebar
+  const [allItems, setAllItems] = useState([
+    //   {
+    //   id: '1111',
+    //   titulo: "Clausula 1",
+    //   contenido: "lorem ipsum"
+    // },
+    // {
+    //   id: '2222',
+    //   titulo: "Clausula 2",
+    //   contenido: "lorem ipsum"
+    // },
+    // {
+    //   id: '3333',
+    //   titulo: "Clausula 3",
+    //   contenido: "lorem ipsum"
+    // }
+  ]); //Items de todas las plantillas
+  const [plantillas, setPlantillas] = useState([
+    {
+      nombre: "Plantilla1",
+      cabecera: "Contrato prestacion de servicios"
+    },
+    {
+      nombre: "Plantilla2",
+      cabecera: "Contrato riesgos"
+    },
+    {
+      nombre: "Plantilla3",
+      cabecera: "Contrato oficina de sistemas"
+    },
+    {
+      nombre: "Plantilla4",
+      cabecera: "Contrato marketing"
+    },
+    {
+      nombre: "Plantilla5",
+      cabecera: "Contrato pasantias"
+    },
+    {
+      nombre: "Plantilla6",
+      cabecera: "Contrato desarrollador"
+    },
+  ]); //Plantillas
+
+  const [cuentas, setCuentas] = useState([
+    {
+      nombre: "Cuenta 1",
+      cabecera: "Cuenta prestacion de servicios"
+    },
+    {
+      nombre: "Cuenta 2",
+      cabecera: "Cuenta riesgos"
+    },
+    {
+      nombre: "Cuenta 3",
+      cabecera: "Cuenta oficina de sistemas"
+    },
+    {
+      nombre: "Cuenta 4",
+      cabecera: "Cuenta marketing"
+    },
+    {
+      nombre: "Cuenta 5",
+      cabecera: "Cuenta pasantias"
+    },
+    {
+      nombre: "Cuenta 6",
+      cabecera: "Cuenta desarrollador"
+    },
+  ]); //Plantillas
+
+  const addPlantilla = (plantilla) => {
+    setPlantillas((prevPlantillas) => {
+      return [...prevPlantillas, plantilla]
+    })
+  }
+
+  const removePlantilla = (plantilla) => {
+    setPlantillas((prevPlantillas) => {
+      return prevPlantillas.filter((p) => p.nombre !== plantilla.nombre)
+    })
+  }
 
   const addItem = (index, item) => {
-    setItems((prevItems) => {
+    setItems(() => {
       const newItems = [...items];
       newItems.splice(index, 0, item);
+      return newItems;
+    })
+  }
+
+  const addItemAtStart = (item) => {
+    setItems(() => {
+      const newItems = [...items];
+      newItems.unshift(item);
       return newItems;
     })
   }
@@ -119,6 +151,7 @@ export function AppWrapper({ children }) {
         items,
         setItems,
         addItem,
+        addItemAtStart,
         removeItem,
         plantillas,
         setPlantillas,
@@ -131,6 +164,10 @@ export function AppWrapper({ children }) {
         addItemToAllItems,
         removeItemFromAllItems,
         instance,
+        addPlantilla,
+        removePlantilla,
+        cuentas,
+        setCuentas,
       }}
     >
       {children}

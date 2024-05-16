@@ -6,10 +6,68 @@ import { Input } from "@/components/ui/Input";
 import Designer from "@/components/Designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
+import { addItems, getItems } from "@/actions/Items"
 
-function PlantillaBuilder({ plantilla }) {
+import { getPlantillaById, updatePlantilla } from "@/actions/Plantillas"
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+
+function PlantillaBuilder({ id }) {
+  const { addItemNotAdded, addItemAtStart, setAllItems, addItemToAllItems, instance, allItems, setItems, setItemsNotAdded, items } = useAppContext()
+  const [mounted, setMounted] = useState(false);
+  const token = localStorage.getItem('token')
+  const [plantilla, setPlantilla] = useState({});
+  const router = useRouter();
   const { daltonismo } = useAppContext();
-  const [nombre, setNombre] = useState(plantilla.nombre);
+  const [nombre, setNombre] = useState();
+
+  if (!mounted) {
+    // console.log("builder")
+
+    getPlantillaById(instance, id, token).then((res) => {
+      if (res === 'error') throw new Error('error')
+      setItems([])
+      setItemsNotAdded([])
+      setAllItems([])
+      // console.log(res.items)
+      const itemsDesigner = res.items.map((item, index) => {
+        return { id: item._id, itemId: item._id, titulo: item.titulo, tipo: item.tipo, contenido: item.contenido }
+      })
+      setItems([...itemsDesigner])
+
+      const itemsSideBar = res.items.map((item, index) => {
+        return { id: item._id, itemId: item._id, titulo: item.titulo, tipo: item.tipo, contenido: item.contenido }
+      })
+      setItemsNotAdded([...itemsSideBar])
+
+      getItems(instance, token).then((allItemsArray) => {
+        const globalItems = allItemsArray.map((item, index) => {
+          return { id: item._id, itemId: item._id, titulo: item.titulo, contenido: item.contenido, tipo: 'clausula' }
+        })
+        setAllItems([...globalItems])
+      })
+
+
+
+      setMounted(true);
+      setNombre(res.nombre)
+      setPlantilla(res);
+
+    }).catch((err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo encontrar la plantilla ' + err,
+      }).then(() => {
+        console.log(err)
+        // router.push('/dashboard')
+      })
+    })
+    // addItem(0, { id: 'encabezado-1', itemId: "encabezado-1", titulo: 'Encabezado 1', contenido: 'lorem ipsum' })
+  }
+
+
+
   function handleChangeNombre(e) {
     setNombre(e.target.value);
   }
@@ -29,8 +87,40 @@ function PlantillaBuilder({ plantilla }) {
 
   const sensors = useSensors(mouseSensor, touchSensor);
 
+  function handleGuardarySalir() {
+    itemsIds = items.map((item, index) => {
+      return {
+        _id: item.itemId
+        // , titulo: item.titulo, contenido: item.contenido, tipo: item.tipo 
+      }
+    })
+    data = {
+      nombre: nombre,
+      items: itemsIds,
+      status: plantilla.status
+    }
+    updatePlantilla(instance, plantilla._id, data, token).then((res) => {
+      if (res === 'error') throw new Error('error')
+      Swal.fire({
+        icon: 'success',
+        title: 'Guardado',
+        text: 'La plantilla se ha guardado correctamente',
+      }).then(() => {
+        router.push('/dashboard')
+      })
+    }).catch((err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo guardar la plantilla ' + err,
+      }).then(() => {
+        console.log(err)
+      })
+    })
+  }
 
-  return (
+
+  return (mounted &&
     <DndContext sensors={sensors}>
       <main className="flex flex-col w-full h-[96%]">
         <nav
@@ -54,10 +144,10 @@ function PlantillaBuilder({ plantilla }) {
             />
           </h2>
           <div className="flex items-center gap-2">
-            <Button className="p-2  font-medium border border-light-texto dark:border-dark-texto">
-              Guardar
+            <Button onClick={handleGuardarySalir} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
+              Guardar y salir
             </Button>
-            {!plantilla.aprobada && (
+            {plantilla.status !== 'aprobada' && (
               <>
                 <Button className="p-2  font-medium border border-light-texto dark:border-dark-texto">
                   Solicitar Aprobacion
@@ -67,7 +157,7 @@ function PlantillaBuilder({ plantilla }) {
           </div>
         </nav>
         <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto min-h-full bg-zinc-200 dark:bg-[#4d4d4d] bg-[url(/paper.svg)] dark:bg-[url(/paper-dark.svg)]">
-          <Designer />
+          <Designer mounted={mounted} />
         </div>
       </main>
       <DragOverlayWrapper />

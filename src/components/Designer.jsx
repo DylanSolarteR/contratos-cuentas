@@ -10,9 +10,9 @@ import { Button } from "./ui/button";
 import { idGenerator } from "@/lib/idGenerator";
 import { arrayMove } from "@dnd-kit/sortable";
 
-function Designer() { // El cuadro grande en el centro
+function Designer({ mounted }) { // El cuadro grande en el centro
 
-    const { items, setItems, addItem } = useAppContext() //items en formato {titulo, contenido}
+    const { items, setItems, addItem } = useAppContext()
     const droppable = useDroppable({
         id: "designer-drop-area",
         data: { isDesignerDropArea: true }
@@ -79,7 +79,7 @@ function Designer() { // El cuadro grande en el centro
         },
     })
 
-    return (
+    return (mounted &&
         <div className="flex w-full h-full">
             <div className="p-4 w-full">
                 <div
@@ -111,7 +111,7 @@ function Designer() { // El cuadro grande en el centro
 }
 
 function DesignerItemWrapper({ item }) {
-    const isEncabezado = item.itemId.includes("encabezado")
+
 
     const [mouseIsOver, setMouseIsOver] = useState(false)
     const { removeItem } = useAppContext()
@@ -147,7 +147,7 @@ function DesignerItemWrapper({ item }) {
         >
             <div ref={topHalf.setNodeRef} className={cn("absolute w-full h-1/2 rounded-t-md", topHalf.isOver && "border-t-8 border-light-texto dark:border-dark-texto")}></div>
             <div ref={bottomHalf.setNodeRef} className={cn("absolute w-full bottom-0 h-1/2 rounded-b-md", bottomHalf.isOver && "border-b-8 border-light-texto dark:border-dark-texto")}></div>
-            {!isEncabezado && mouseIsOver && (
+            {mouseIsOver && (
                 <div className="absolute right-0 h-full ">
                     <Button variant="delete" className="flex justify-center items-center h-full border border-red-500 bg-red-500 hover:bg-red-500/50 rounded-md rounded-l-none"
                         onClick={() => {

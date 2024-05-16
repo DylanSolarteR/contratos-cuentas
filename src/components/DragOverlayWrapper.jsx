@@ -37,7 +37,7 @@ function DragOverlayWrapper() {
         else {
 
             node = (
-                <div className="flex rounded-md h-fit w-full py-2 px-4 opacity-80 border border-light-texto dark:border-dark-texto pointer-events-none">
+                <div className="flex rounded-md max-h-32 text-ellipsis w-full py-2 px-4 opacity-80 border border-light-texto dark:border-dark-texto pointer-events-none">
                     <PlantillaItemDragOverlay id={item.id} titulo={item.titulo} contenido={item.contenido} />
                 </div>);
 

@@ -19,7 +19,7 @@ function PlantillaItem({ id, titulo, contenido }) { //El item en el sidebar
             {...draggable.attributes}
         >
             <span className="text-base font-bold">{titulo}</span>
-            <p className="text-sm">{contenido}</p>
+            <div className="flex text-justify text-sm w-full text-wrap overflow-y-auto max-h-32">{contenido}</div>
         </Button>
     )
 }
@@ -36,7 +36,7 @@ export function PlantillaItemDragOverlay({ id, titulo, contenido }) { //El dragg
             className="flex flex-col w-full h-fit cursor-grab"
         >
             <span className="text-base font-bold">{titulo}</span>
-            <p className="text-sm">{contenido}</p>
+            <div className="flex text-justify text-sm w-full text-wrap overflow-y-auto max-h-32">{contenido}</div>
         </Button>
     )
 }
