@@ -6,8 +6,6 @@ import { Input } from "@/components/ui/Input";
 import Designer from "@/components/Designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
-import { Mouse } from "lucide-react";
-
 
 function PlantillaBuilder({ plantilla }) {
   const { daltonismo } = useAppContext();

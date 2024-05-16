@@ -6,7 +6,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { signUp } from "@/actions/Auth";
 
 export default function Home() {
   const { daltonismo, instance } = useAppContext();
@@ -18,8 +17,7 @@ export default function Home() {
   const [password2, setPassword2] = useState("");
 
   const onSubmit = () => {
-
-    if(password.length > 8 && password == password2){
+    if (password.length > 8 && password == password2) {
       Swal.fire({
         title: "Enviar",
         text: "¿Confirmas el registro?",
@@ -30,37 +28,35 @@ export default function Home() {
       }).then((result) => {
         if (result.isConfirmed) {
           instance
-          .post("/auth/signup", {
-            tipo: type,
-            nombre: name,
-            documento: document,
-            email: email,
-            password: password,
-          })
-          .then((result) => {
-            if (result.status === 200) {
-              localStorage.setItem("token", result.data.token);
-              router.push("/dashboard")
-            }
-          })
-          .catch((err) => {
-            Swal.fire({
-              title: "Error de inicio de sesión",
-              text: "Datos incorrectos " + err,
-              icon: "error",
-              confirmButtonText: "OK",
+            .post("/auth/signup", {
+              tipo: type,
+              nombre: name,
+              documento: document,
+              email: email,
+              password: password,
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                router.push("/login");
+              }
+            })
+            .catch((err) => {
+              Swal.fire({
+                title: "Error de registro",
+                text: "Datos incorrectos",
+                icon: "error",
+                confirmButtonText: "OK",
+              });
             });
-          });
         }
       });
-    }else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "Las contraseñas no cumplen con los requisitos",
         icon: "error",
-      })
+      });
     }
-    
   };
 
   return (
@@ -220,9 +216,9 @@ export default function Home() {
             <div class="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Confirmar Contraseña</label>
               <input
-              onChange={(e) => {
-                setPassword2(e.target.value);
-              }}
+                onChange={(e) => {
+                  setPassword2(e.target.value);
+                }}
                 type="password"
                 id="password"
                 name="password"

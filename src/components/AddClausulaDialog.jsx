@@ -10,7 +10,7 @@ import {
 import { useAppContext } from "@/context"
 import { idGenerator } from "@/lib/idGenerator"
 
-import { addItem } from "@/context/actions/Items"
+import { addItem } from "@/actions/Items"
 
 export function AddClausulaDialog() {
     const { allItems, addItemNotAdded, addItemToAllItems, instance } = useAppContext()
@@ -73,9 +73,11 @@ export function AddClausulaDialog() {
                                         const titulo = document.querySelector('input[name="titulo-nueva-clausula"]').value
                                         const contenido = document.querySelector('textarea[name="contenido-nueva-clausula"]').value
                                         if (titulo && contenido) {
+                                            const token = localStorage.getItem('token')
+                                            const result = await addItem(instance, { titulo, tipo: 'clausula', contenido }, token)
+                                            // console.log(result)
                                             // const id = idGenerator() //Cambiar esto cuando este el backend
-                                            const result = await addItem(instance, { titulo, tipo:'clausula', contenido }, token)
-                                            addItemToAllItems({ id, itemId: id, titulo, contenido })
+                                            addItemToAllItems({ id: result._id, itemId: result._id, titulo: result.titulo, contenido: result.contenido, tipo: 'clausula' })
                                         } else {
                                             alert("Debe completar todos los campos")
                                         }

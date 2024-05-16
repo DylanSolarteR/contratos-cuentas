@@ -3,7 +3,6 @@ import { useAppContext } from "@/context";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { login } from "@/actions/Auth";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 

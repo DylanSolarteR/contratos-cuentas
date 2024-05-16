@@ -75,7 +75,6 @@ function Designer() { // El cuadro grande en el centro
 
                 array = arrayMove(array, activeItemIndex, indexForNewItem)
                 setItems(array)
-                console.log(items)
             }
         },
     })
