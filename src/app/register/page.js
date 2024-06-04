@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
   const { daltonismo, instance } = useAppContext();
   const [name, setName] = useState("");
   const [document, setDocument] = useState("");
@@ -19,50 +19,64 @@ export default function Home() {
   const [password2, setPassword2] = useState("");
 
   const onSubmit = () => {
-    if (password.length > 8 && password == password2) {
-      Swal.fire({
-        title: "Enviar",
-        text: "¿Confirmas el registro?",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-        confirmButtonText: "Confirmar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          instance
-            .post("/auth/signup", {
-              tipo: type,
-              nombre: name,
-              documento: document,
-              email: email,
-              password: password,
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                router.push("/login");
-              }
-            })
-            .catch((err) => {
-              Swal.fire({
-                title: "Error de registro",
-                text: "Datos incorrectos",
-                icon: "error",
-                confirmButtonText: "OK",
+    if (
+      name.length > 0 &&
+      document.length > 5 &&
+      type.length > 0 &&
+      email.length > 0
+    ) {
+      if (password.length >= 8 && password == password2) {
+        Swal.fire({
+          title: "Enviar",
+          text: "¿Confirmas el registro?",
+          icon: "question",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Confirmar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            instance
+              .post("/auth/signup", {
+                tipo: type,
+                nombre: name,
+                documento: document,
+                email: email,
+                password: password,
+              })
+              .then((response) => {
+                if (response.status === 200) {
+                  router.push("/login");
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+                Swal.fire({
+                  title: "Error de registro",
+                  text: err.response.data.error,
+                  icon: "error",
+                  confirmButtonText: "OK",
+                });
               });
-            });
-        }
-      });
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Las contraseñas no cumplen con los requisitos",
+          icon: "error",
+        });
+      }
     } else {
       Swal.fire({
         title: "Error",
-        text: "Las contraseñas no cumplen con los requisitos",
+        text: "Por favor rellene todos los campos",
         icon: "error",
       });
     }
   };
 
   return (
-    <div>
+    <div className="py-10">
       <main
         className={`flex flex-col h-[90vh] items-center justify-center px-4 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo text-shadow-sm ${
           daltonismo === "normal"
@@ -74,7 +88,7 @@ export default function Home() {
             : "text-tritanopia-light-texto shadow-tritanopia-light-acento-2 dark:text-tritanopia-dark-texto dark:shadow-tritanopia-dark-acento-2"
         }`}
       >
-        <div className="flex flex-col justify-center items-center gap-4">
+        <div className="flex flex-col justify-center items-center gap-4 ">
           <h2 className="text-2xl font-bold">Registro</h2>
           <div
             class={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-5  shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${
@@ -239,7 +253,7 @@ export default function Home() {
             </div>
             <div className="flex items-center space-x-2">
               <Checkbox id="terms" />
-              <Label htmlFor="terms">Acceptar terminos y condiciones</Label>
+              <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
             </div>
             <div className=" flex flex-col justify-center items-center">
               <Button

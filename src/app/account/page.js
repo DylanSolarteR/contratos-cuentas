@@ -16,7 +16,7 @@ import Link from "next/link";
 
 import { useToast } from "@/components/ui/use-toast";
 
-function page() {
+function Page() {
   const { toast } = useToast();
   const { daltonismo } = useAppContext();
   return (
@@ -302,4 +302,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

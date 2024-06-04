@@ -7,31 +7,41 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
   const { daltonismo, instance } = useAppContext();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onSubmit = () => {
-    instance
-      .post("/auth/login", {
-        email: email,
-        password: password,
-      })
-      .then((result) => {
-        if (result.status === 200) {
-          localStorage.setItem("token", result.data.token);
-          router.push("/dashboard")
-        }
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "Error de inicio de sesión",
-          text: "Datos incorrectos " + err,
-          icon: "error",
-          confirmButtonText: "OK",
+
+    if ( email.length > 0 && password.length > 0){
+
+      instance
+        .post("/auth/login", {
+          email: email,
+          password: password,
+        })
+        .then((result) => {
+          if (result.status === 200) {
+            localStorage.setItem("token", result.data.token);
+            router.push("/dashboard");
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "Error de inicio de sesión",
+            text: err,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         });
+    }else{
+      Swal.fire({
+        title: "Error",
+        text: "Por favor rellene todos los campos",
+        icon: "error",
       });
+    }
   };
   return (
     <div>

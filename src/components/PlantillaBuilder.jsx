@@ -8,7 +8,7 @@ import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dn
 import DragOverlayWrapper from "./DragOverlayWrapper";
 import { addItems, getItems } from "@/actions/Items"
 
-import { getPlantillaById, updatePlantilla } from "@/actions/Plantillas"
+import { getPlantillaById, updatePlantilla, deletePlantilla } from "@/actions/Plantillas"
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
@@ -123,7 +123,6 @@ function PlantillaBuilder({ id }) {
     const itemsIds = items.map((item) => {
       return {
         _id: item.itemId
-        // , titulo: item.titulo, contenido: item.contenido, tipo: item.tipo 
       }
     })
     const data = {
@@ -148,6 +147,31 @@ function PlantillaBuilder({ id }) {
       }).then(() => {
         console.log(err)
       })
+    })
+  }
+
+  const handleEliminarPlantilla = () => {
+    Swal.fire({
+      title: "Eliminar",
+      text: "¿Confirmas la eliminacion?",
+      icon: "question",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Confirmar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePlantilla(instance, id, token).then(
+          (res) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Eliminado',
+              text: 'La plantilla se eliminó correctamente',
+            }).then(() => {
+              router.push('/dashboard')
+            })
+          }
+        )
+      }
     })
   }
 
@@ -176,6 +200,9 @@ function PlantillaBuilder({ id }) {
             />
           </h2>
           <div className="flex items-center gap-2">
+            <Button onClick={handleEliminarPlantilla} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
+              Eliminar Plantilla
+            </Button>
             <Button onClick={handleGuardarySalir} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
               Guardar y salir
             </Button>

@@ -4,10 +4,6 @@ import { useState, useEffect } from "react"
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -114,7 +110,7 @@ export const columns = [
 ]
 
 export default function DataTableDemo() {
-  const token = localStorage.getItem('token');
+  const token = localStorage?.getItem('token');
   const router = useRouter()
   const { daltonismo, instance } = useAppContext();
   const [sorting, setSorting] = useState([])
