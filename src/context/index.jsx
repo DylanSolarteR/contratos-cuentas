@@ -28,6 +28,7 @@ export function AppWrapper({ children }) {
     //   contenido: "lorem ipsum"
     // }
   ]); //Items de todas las plantillas
+
   const [plantillas, setPlantillas] = useState([
     {
       nombre: "Plantilla1",

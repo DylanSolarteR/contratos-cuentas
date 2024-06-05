@@ -14,12 +14,12 @@ function PlantillaItem({ id, titulo, contenido }) { //El item en el sidebar
         <Button
             ref={draggable.setNodeRef}
             variant="outline"
-            className={cn("flex flex-col gap-2 w-full h-fit cursor-grab", draggable.isDragging && "ring-2 ring-primary")}
+            className={cn("flex flex-col gap-2 w-full h-fit cursor-grab border border-light-texto dark:border-dark-texto", draggable.isDragging && "ring-2 ring-primary")}
             {...draggable.listeners}
             {...draggable.attributes}
         >
-            <span className="text-base font-bold">{titulo}</span>
-            <div className="flex text-justify text-sm w-full text-wrap overflow-y-auto max-h-32">{contenido}</div>
+            <span className="text-base font-bold border-b border-b-light-texto/60 dark:border-b-dark-texto/60 w-full py-2">{titulo}</span>
+            <div className="text-justify text-sm w-full text-wrap overflow-y-auto max-h-32">{contenido}</div>
         </Button>
     )
 }

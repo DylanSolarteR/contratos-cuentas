@@ -2,7 +2,7 @@ import { DragOverlay, useDndMonitor } from "@dnd-kit/core"
 import { useState } from "react"
 import { PlantillaItemDragOverlay } from "./PlantillaItem"
 import { useAppContext } from "@/context"
-
+import { snapCenterToCursor } from '@dnd-kit/modifiers';
 function DragOverlayWrapper() {
     const { items, setItems } = useAppContext()
     const [draggedItem, setDraggedItem] = useState(null)
@@ -37,7 +37,7 @@ function DragOverlayWrapper() {
         else {
 
             node = (
-                <div className="flex rounded-md max-h-32 text-ellipsis w-full py-2 px-4 opacity-80 border border-light-texto dark:border-dark-texto pointer-events-none">
+                <div className="flex rounded-md h-fit overflow-clip text-ellipsis w-full py-2 px-4 opacity-80 border border-light-texto dark:border-dark-texto pointer-events-none">
                     <PlantillaItemDragOverlay id={item.id} titulo={item.titulo} contenido={item.contenido} />
                 </div>);
 
@@ -46,7 +46,7 @@ function DragOverlayWrapper() {
     }
 
     return (
-        <DragOverlay>
+        <DragOverlay modifiers={[snapCenterToCursor]}>
             {node}
         </DragOverlay>
     )

@@ -11,7 +11,7 @@ function DesignerItem({ id, titulo, contenido }) { //Los items en el designer, o
                     : "border-tritanopia-light-acento-2/60 dark:border-tritanopia-dark-acento-2/50"
             }`}>
             <span className="text-base text-light-texto dark:text-dark-texto font-bold">{titulo}</span>
-            <div className="flex text-justify text-sm w-full text-wrap overflow-y-auto text-light-texto dark:text-dark-texto">{contenido}</div>
+            <div className="text-justify text-sm w-full text-wrap overflow-y-auto text-light-texto dark:text-dark-texto">{contenido}</div>
         </div>
     )
 }

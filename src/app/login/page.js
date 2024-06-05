@@ -13,9 +13,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onSubmit = () => {
-
-    if ( email.length > 0 && password.length > 0){
-
+    if (email.length > 0 && password.length > 0) {
       instance
         .post("/auth/login", {
           email: email,
@@ -30,12 +28,12 @@ export default function Home() {
         .catch((err) => {
           Swal.fire({
             title: "Error de inicio de sesión",
-            text: err,
+            text: err.response.data.error,
             icon: "error",
             confirmButtonText: "OK",
           });
         });
-    }else{
+    } else {
       Swal.fire({
         title: "Error",
         text: "Por favor rellene todos los campos",

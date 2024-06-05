@@ -1,7 +1,7 @@
 import { useAppContext } from "@/context";
 import PlantillaItem from "./PlantillaItem";
 import AddClausulaDialog from "./AddClausulaDialog";
-
+import parse from 'html-react-parser';
 
 function DesignerSidebar() { //La sidebar
     const { daltonismo, itemsNotAdded } = useAppContext();
@@ -19,7 +19,7 @@ function DesignerSidebar() { //La sidebar
             <AddClausulaDialog />
             {itemsNotAdded.length === 0 && <p className="flex justify-center">No hay clausulas añadidas</p>}
             {itemsNotAdded.map((item) => (
-                <PlantillaItem key={item.id} id={item.id} titulo={item.titulo} contenido={item.contenido} />
+                <PlantillaItem key={item.id} id={item.id} titulo={item.titulo} contenido={parse(item.contenido)} />
             ))}
             {/* <PlantillaItem id={'1111'} titulo={"Clausula 1"} contenido={"lorem ipsum"} />
             <PlantillaItem id={'2222'} titulo={"Clausula 2"} contenido={"lorem ipsum"} />

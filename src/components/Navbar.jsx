@@ -16,12 +16,12 @@ function Navbar() {
   return (
     <nav
       className={`sticky top-0 z-[9999] flex md:flex-row md:h-fit md:px-36 max-w-full w-full px-6 shadow-sm bg-light-fondo dark:bg-dark-fondo ${daltonismo === "normal"
-          ? "shadow-light-acento-2 dark:shadow-dark-acento-2"
-          : daltonismo === "protanopia"
-            ? "shadow-protanopia-light-acento-2 dark:shadow-protanopia-dark-acento-2"
-            : daltonismo === "deuteranopia"
-              ? "shadow-deuteranopia-light-acento-2 dark:shadow-deuteranopia-dark-acento-2"
-              : "shadow-tritanopia-light-acento-2 dark:shadow-tritanopia-dark-acento-2"
+        ? "shadow-light-acento-2 dark:shadow-dark-acento-2"
+        : daltonismo === "protanopia"
+          ? "shadow-protanopia-light-acento-2 dark:shadow-protanopia-dark-acento-2"
+          : daltonismo === "deuteranopia"
+            ? "shadow-deuteranopia-light-acento-2 dark:shadow-deuteranopia-dark-acento-2"
+            : "shadow-tritanopia-light-acento-2 dark:shadow-tritanopia-dark-acento-2"
         } items-center md:justify-between md:gap-4 gap-4 py-1 justify-between flex-col`}
     >
       <div className="flex flex-row justify-center items-center order-first gap-2">
@@ -40,8 +40,8 @@ function Navbar() {
 
       <ul
         className={`md:flex md:flex-row md:flex-grow md:justify-end  md:relative md:order-2 ${navListToggle
-            ? "text-center flex-col gap-0 items-center order-last"
-            : "hidden"
+          ? "text-center flex-col gap-0 items-center order-last"
+          : "hidden"
           }`}
       >
         <li>
@@ -66,12 +66,12 @@ function Navbar() {
         </li>
         <li>
           <Link
-            href="/dashboard/cuentas"
+            href="/dashboard/clientes"
             className={`${buttonVariants({
               variant: "ghost",
             })} lg:px-6 md:px-2 text-[1.125rem] font-semibold`}
           >
-            Cuentas de Cobro
+            Clientes
           </Link>
         </li>
       </ul>
