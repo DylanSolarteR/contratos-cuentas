@@ -20,7 +20,6 @@ function ElegirClienteDialog() {
     const [clientesSeleccionados, setClientesSeleccionados] = useState([])
     const { daltonismo, instance } = useAppContext()
     const [loading, setLoading] = useState(true)
-    const token = localStorage.getItem("token")
 
     const mockdata = [
         {
@@ -166,7 +165,7 @@ function ElegirClienteDialog() {
     ]
 
     useEffect(() => {
-        getClientes(instance, token).then((res) => {
+        getClientes(instance, localStorage.getItem("token")).then((res) => {
             setClientes(res)
             setLoading(false)
         }).catch((err) => {
@@ -247,8 +246,8 @@ function ElegirClienteDialog() {
                         </div>
                         {loading ? <Loading /> :
 
-                            clientes.map((cliente, index) => (
-                                <Toggle className="border border-light-acento-2 dark:border-dark-acento-2 hover:border-light-acento-1  dark:hover:border-dark-acento-1
+                            clientes.map((cliente) => (
+                                <Toggle key={cliente._id} className="border border-light-acento-2 dark:border-dark-acento-2 hover:border-light-acento-1  dark:hover:border-dark-acento-1
                             grid grid-cols-4 gap-2 p-2 rounded-md shadow-md text-light-texto dark:text-dark-texto h-fit w-full"
                                     pressed={clientesSeleccionados.some(
                                         (c) => c._id === cliente._id
