@@ -35,10 +35,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getClientes } from "@/actions/clientes";
 import Loading from "@/components/Loading";
+import { getContratos } from "@/actions/contrato";
 
-const data = [
+/*const data = [
   {
     codigo: "INV001",
     documento: "486516898",
@@ -144,16 +144,9 @@ const data = [
     fecha: "10/01/14",
     telefono: "3132314645",
   },
-];
+];*/
 
 export const columns = [
-  {
-    accessorKey: "codigo",
-    header: "Código",
-    cell: ({ row }) =>
-      <div className="capitalize">{row.getValue("codigo")}</div>
-    ,
-  },
   {
     accessorKey: "documento",
     header: ({ column }) => {
@@ -167,27 +160,34 @@ export const columns = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("documento")}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("cliente").documento}</div>,
   },
   {
     accessorKey: "cliente",
     header: "Cliente",
     cell: ({ row }) =>
-      <div className="capitalize">{row.getValue("cliente")}</div>
+      <div className="capitalize">{(row.getValue("cliente").nombreCompleto).toString()}</div>
     ,
   },
   {
-    accessorKey: "fecha",
+    accessorKey: "estado",
+    header: "Estado",
+    cell: ({ row }) =>
+      <div className="capitalize">{row.getValue("estado")}</div>
+    ,
+  },
+  {
+    accessorKey: "createdAt",
     header: "Fecha",
     cell: ({ row }) =>
-      <div className="capitalize">{row.getValue("fecha")}</div>
+      <div className="capitalize">{row.getValue("createdAt")}</div>
     ,
   },
   {
     accessorKey: "telefono",
     header: "Teléfono",
     cell: ({ row }) =>
-      <div className="capitalize">{row.getValue("telefono")}</div>
+      <div className="capitalize">{row.getValue("cliente").telefono}</div>
     ,
   },
   {
@@ -226,7 +226,8 @@ export default function HistorialContratos() {
   const router = useRouter()
   const { daltonismo, instance } = useAppContext();
   const [sorting, setSorting] = useState([])
-  //const [data, setData] = useState([])
+  const [data, setData] = useState([])
+  const [token, setToken] = useState("");
   const [columnFilters, setColumnFilters] = useState(
     []
   )
@@ -253,37 +254,36 @@ export default function HistorialContratos() {
     },
   })
 
-  let token = '';
   const [mounted, setMounted] = useState(false)
 
+
+
   useEffect(() => {
-    token = localStorage.getItem("token");
-    if (!token) {
+    setToken(localStorage.getItem("token"));
+    if (!localStorage.getItem("token")) {
       router.push("/login");
     } else {
+      getContratos(instance, localStorage.getItem("token")).then((res) => {
+        if (res != 'error') {
+          setData(res)
+        } else {
+          throw new Error('error')
+        }
+      }).catch((err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron encontrar los contratos',
+        }).then(() => {
+          router.push('/dashboard')
+        })
+
+      }
+      )
+
       setMounted(true)
     }
   }, []);
-
-  /*useEffect(() => {
-    getClientes(instance, token).then((res) => {
-      if (res != 'error') {
-        setData(res)
-      } else {
-        throw new Error('error')
-      }
-    }).catch((err) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudieron encontrar los clientes',
-      }).then(() => {
-        router.push('/dashboard')
-      })
-
-    }
-    )
-  }, []);*/
 
   return mounted ? (
     <div>
