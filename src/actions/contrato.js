@@ -25,23 +25,27 @@ export async function generateContrato(
   idCliente
 ) {
   try {
-    const response = await axiosInstance.post(`/contrato/generate`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: {
+    const response = await axiosInstance.post(
+      `/contrato/generate`,
+      {
         plantillaId: idPlantilla,
         clienteId: idCliente,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    Swal.fire({
-      title: "Error de generacion de contrato",
-      text: "Error: " + error.response.data.error,
-      icon: "error",
-      confirmButtonText: "OK",
-    });
+    console.log(error);
+    // Swal.fire({
+    //   title: "Error de generacion de contrato",
+    //   text: "Error: " + error.response.data.error,
+    //   icon: "error",
+    //   confirmButtonText: "OK",
+    // });
   }
 }
 
