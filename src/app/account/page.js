@@ -18,23 +18,117 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
+import { changePassword, getProfile, updateProfile } from "@/actions/user";
+import Swal from "sweetalert2";
+import { CloudLightning } from "lucide-react";
 
 function Page() {
   const { toast } = useToast();
-  const { daltonismo, setIsLogged } = useAppContext();
+  const { daltonismo, setIsLogged, instance } = useAppContext();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-
-  let token = "";
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [contrasenaVieja, setContrasenaVieja] = useState("");
+  const [contrasenaNueva, setContrasenaNueva] = useState("");
 
   useEffect(() => {
-    token = localStorage.getItem("token");
-    if (!token) {
+    if (!localStorage.getItem("token")) {
       router.push("/login");
     } else {
       setMounted(true);
+      getProfile(instance, localStorage.getItem("token")).then((res) => {
+        setNombre(res.nombre);
+        setCorreo(res.email);
+      });
     }
   }, []);
+
+  const onChangeNombre = (e) => {
+    setNombre(e.target.value);
+  };
+
+  const onChangeCorreo = (e) => {
+    setCorreo(e.target.value);
+  };
+
+  const onChangeContrasenaVieja = (e) => {
+    setContrasenaVieja(e.target.value);
+  };
+
+  const onChangeContrasenaNueva = (e) => {
+    setContrasenaNueva(e.target.value);
+  };
+
+  const handleUpdateProfile = async () => {
+    const data = {
+      nombre: nombre,
+      email: correo,
+    };
+
+    updateProfile(instance, localStorage.getItem("token"), data).then((res) => {
+      if (!res) {
+        return;
+      }
+      Swal.fire({
+        title: "Perfil actualizado",
+        text: "Perfil actualizado exitosamente.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        window.location.reload();
+      });
+    });
+  };
+
+  const handleUpdatePassword = async () => {
+    changePassword(
+      instance,
+      localStorage.getItem("token"),
+      contrasenaVieja,
+      contrasenaNueva
+    ).then((res) => {
+      if (!res) {
+        return;
+      }
+      Swal.fire({
+        title: "Contraseña actualizada",
+        text: "Contraseña actualizada exitosamente.",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        logout();
+      });
+    });
+  };
+
+  const logout = () => {
+    localStorage.setItem("token", "");
+    setIsLogged(false);
+    setTimeout(() => {
+      toast({
+        className: `bg-neutral-200/30 dark:bg-dark-fondo bg-light-fondo border-2 z-50 ${
+          daltonismo === "normal"
+            ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
+            : daltonismo === "protanopia"
+            ? "border-protanopia-light-acento-2/10 dark:border-protanopia-dark-acento-2/1"
+            : daltonismo === "deuteranopia"
+            ? "border-deuteranopia-light-acento-2/10 dark:border-deuteranopia-dark-acento-2/10"
+            : "border-tritanopia-light-acento-2/10 dark:border-tritanopia-dark-acento-2/1"
+        } shadow ${
+          daltonismo === "normal"
+            ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+            : daltonismo === "protanopia"
+            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+            : daltonismo === "deuteranopia"
+            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+        }`,
+        description: "Sesión Cerrada",
+      });
+    }, 500);
+    router.push("/");
+  };
 
   return mounted ? (
     <div className="flex flex-col justify-center items-center h-[90vh] max-h-[90vh] px-4  ">
@@ -131,6 +225,8 @@ function Page() {
                 <Input
                   id="name"
                   defaultValue=""
+                  value={nombre}
+                  onChange={onChangeNombre}
                   placeholder="Nombre de usuario"
                   className={` rounded-md shadow bg-transparent placeholder:text-light-texto/60 placeholder:dark:text-dark-texto/60 ${
                     daltonismo === "normal"
@@ -156,6 +252,8 @@ function Page() {
                 <Input
                   id="username"
                   defaultValue=""
+                  value={correo}
+                  onChange={onChangeCorreo}
                   placeholder="ejemplo@dominio.com"
                   className={` rounded-md shadow bg-transparent placeholder:text-light-texto/60 placeholder:dark:text-dark-texto/60 ${
                     daltonismo === "normal"
@@ -180,28 +278,7 @@ function Page() {
             <CardFooter className="flex justify-center gap-4">
               <Button
                 variant="default"
-                onClick={() =>
-                  toast({
-                    className: ` bg-neutral-200/30 dark:bg-transparent border-2 ${
-                      daltonismo === "normal"
-                        ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
-                        : daltonismo === "protanopia"
-                        ? "border-protanopia-light-acento-2/10 dark:border-protanopia-dark-acento-2/1"
-                        : daltonismo === "deuteranopia"
-                        ? "border-deuteranopia-light-acento-2/10 dark:border-deuteranopia-dark-acento-2/10"
-                        : "border-tritanopia-light-acento-2/10 dark:border-tritanopia-dark-acento-2/1"
-                    } shadow ${
-                      daltonismo === "normal"
-                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                        : daltonismo === "protanopia"
-                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                        : daltonismo === "deuteranopia"
-                        ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                        : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
-                    }`,
-                    description: "Guardado exitoso.",
-                  })
-                }
+                onClick={handleUpdateProfile}
                 className={`rounded-lg font-semibold shadow ${
                   daltonismo === "normal"
                     ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
@@ -217,31 +294,7 @@ function Page() {
               <Button
                 variant="destructive"
                 onClick={() => {
-                  localStorage.setItem("token", "");
-                  setIsLogged(false);
-                  setTimeout(() => {
-                    toast({
-                      className: `bg-neutral-200/30 dark:bg-dark-fondo bg-light-fondo border-2 z-50 ${
-                        daltonismo === "normal"
-                          ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
-                          : daltonismo === "protanopia"
-                          ? "border-protanopia-light-acento-2/10 dark:border-protanopia-dark-acento-2/1"
-                          : daltonismo === "deuteranopia"
-                          ? "border-deuteranopia-light-acento-2/10 dark:border-deuteranopia-dark-acento-2/10"
-                          : "border-tritanopia-light-acento-2/10 dark:border-tritanopia-dark-acento-2/1"
-                      } shadow ${
-                        daltonismo === "normal"
-                          ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                          : daltonismo === "protanopia"
-                          ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                          : daltonismo === "deuteranopia"
-                          ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                          : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
-                      }`,
-                      description: "Sesión Cerrada",
-                    });
-                  }, 500);
-                  router.push("/");
+                  logout();
                 }}
                 className={`rounded-lg font-semibold shadow ${
                   daltonismo === "normal"
@@ -291,6 +344,8 @@ function Page() {
                 <Input
                   id="current"
                   type="password"
+                  value={contrasenaVieja}
+                  onChange={onChangeContrasenaVieja}
                   className={` rounded-md shadow bg-transparent placeholder:text-light-texto/60 placeholder:dark:text-dark-texto/60 ${
                     daltonismo === "normal"
                       ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
@@ -315,6 +370,8 @@ function Page() {
                 <Input
                   id="new"
                   type="password"
+                  value={contrasenaNueva}
+                  onChange={onChangeContrasenaNueva}
                   className={` rounded-md shadow bg-transparent placeholder:text-light-texto/60 placeholder:dark:text-dark-texto/60 ${
                     daltonismo === "normal"
                       ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
@@ -339,6 +396,7 @@ function Page() {
               <Link href={"/login"}>
                 <Button
                   variant="default"
+                  onClick={handleUpdatePassword}
                   className={`rounded-lg font-semibold shadow ${
                     daltonismo === "normal"
                       ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
