@@ -114,7 +114,7 @@ function DesignerItemWrapper({ item }) {
 
 
     const [mouseIsOver, setMouseIsOver] = useState(false)
-    const { removeItem } = useAppContext()
+    const { removeItemByRandomId } = useAppContext()
     const topHalf = useDroppable({
         id: `${item.id}-top-half`,
         data: { isTopHalfDesignerItem: true, itemId: item.id }
@@ -151,7 +151,7 @@ function DesignerItemWrapper({ item }) {
                 <div className="absolute right-0 h-full ">
                     <Button variant="delete" className="flex justify-center items-center h-full border border-red-500 bg-red-500 hover:bg-red-500/50 rounded-md rounded-l-none"
                         onClick={() => {
-                            removeItem(item.id)
+                            removeItemByRandomId(item.id)
                         }}
                     >
                         <Trash className="h-6 w-6" />

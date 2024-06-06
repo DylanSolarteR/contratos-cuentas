@@ -119,6 +119,12 @@ export function AppWrapper({ children }) {
     })
   }
 
+  const removeItemByRandomId = (id) => {
+    setItems((prevItems) => {
+      return prevItems.filter((item) => item.id !== id)
+    })
+  }
+
   const addItemNotAdded = (item) => {
     if (itemsNotAdded.find((i) => i.id === item.id)) { alert("Item ya añadido"); return; }
 
@@ -173,6 +179,7 @@ export function AppWrapper({ children }) {
         setCuentas,
         isLogged,
         setIsLogged,
+        removeItemByRandomId
       }}
     >
       {children}
