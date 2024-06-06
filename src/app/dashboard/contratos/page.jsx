@@ -179,7 +179,8 @@ export default function HistorialContratos() {
       router.push("/login");
     } else {
       getContratos(instance, localStorage.getItem("token")).then((res) => {
-        if (res != 'error') {
+        console.log(res)
+        if (res.length > 0) {
           setData(res)
         } else {
           throw new Error('error')
@@ -188,7 +189,7 @@ export default function HistorialContratos() {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudieron encontrar los contratos',
+          text: 'No se pudieron encontrar contratos',
         }).then(() => {
           router.push('/dashboard')
         })

@@ -187,7 +187,7 @@ export default function DataTableDemo() {
       router.push("/login");
     } else {
       getClientes(instance, localStorage.getItem("token")).then((res) => {
-        if (res != 'error') {
+        if (res.length > 0) {
           setData(res)
         } else {
           throw new Error('error')
@@ -198,7 +198,7 @@ export default function DataTableDemo() {
           title: 'Error',
           text: 'No se pudieron encontrar los clientes',
         }).then(() => {
-          router.push('/dashboard')
+          router.push('/dashboard/clientes/crear')
         })
 
       }
