@@ -180,6 +180,7 @@ function ElegirClienteDialog({ idPlantila }) {
     }, []);
 
     const onGenerate = () => {
+        let counter = 0;
         setOpen(false)
         if (clientesSeleccionados.length === 0) {
 
@@ -195,17 +196,27 @@ function ElegirClienteDialog({ idPlantila }) {
         }
 
         //iterar por cada cliente seleccionado y generar el contrato con el id de la plantilla
-        clientesSeleccionados.forEach((cliente) => {
-            generateContrato(instance, localStorage.getItem("token"), idPlantila, cliente._id)
+
+        clientesSeleccionados.forEach((cliente, index) => {
+            generateContrato(instance, localStorage.getItem("token"), idPlantila, cliente._id).then(() => {
+                if (index === clientesSeleccionados.length - 1) {
+                    Swal.fire({
+                        title: "Contratos generados",
+                        text: "Los contratos han sido generados exitosamente",
+                        icon: "success",
+                        confirmButtonText: "Aceptar",
+                    })
+                }
+            })
         })
 
-        Swal.fire({
-            title: "Contratos generados",
-            text: "Los contratos han sido generados exitosamente",
-            icon: "success",
-            confirmButtonText: "Aceptar",
-        })
-        console.log(clientesSeleccionados)
+
+
+
+
+
+
+        return
     }
 
     return (
