@@ -206,13 +206,11 @@ function PlantillaBuilder({ id }) {
             <Button onClick={handleGuardarySalir} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
               Guardar y salir
             </Button>
-            {plantilla.status !== 'aprobada' && (
-              <>
-                <Button onClick={handleSolicitarAprobacion} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
-                  Solicitar Aprobacion
-                </Button>
-              </>
-            )}
+
+            <Button onClick={handleSolicitarAprobacion} className="p-2  font-medium border border-light-texto dark:border-dark-texto">
+              Solicitar Aprobacion
+            </Button>
+
           </div>
         </nav>
         <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto min-h-full bg-zinc-200 dark:bg-[#4d4d4d] bg-[url(/paper.svg)] dark:bg-[url(/paper-dark.svg)]">

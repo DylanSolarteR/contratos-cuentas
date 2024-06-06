@@ -51,6 +51,9 @@ function ContratoPlantillaCard({ title, estado, idPlantilla }) {
                 }
             });
         }
+        if (estado == 'rechazada') {
+            router.push(`/dashboard/plantillas/${idPlantilla}`)
+        }
     }
 
 
