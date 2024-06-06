@@ -22,13 +22,13 @@ function TipTap({ description, onChange }) {
             },
         },
         onUpdate: ({ editor }) => {
-            onChange(editor.getHTML())
+            onChange(editor.getText())
         }
     })
 
     return (
         <div className="flex flex-col gap-2 justify-stretch min-h-[250px] overflow-y-auto resize-none">
-            <Toolbar editor={editor} />
+            {/* <Toolbar editor={editor} /> */}
             <EditorContent editor={editor} />
         </div>
     )
