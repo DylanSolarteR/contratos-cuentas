@@ -6,13 +6,22 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { UserRound } from "lucide-react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { useAppContext } from "../context/index";
 
 function Navbar() {
-  const { daltonismo } = useAppContext();
+  const { daltonismo, isLogged, setIsLogged } = useAppContext();
   let [navListToggle, setNavListToggle] = useState(false);
+  let token = '';
+
+  useEffect(() => {
+    token = localStorage.getItem('token');
+    if (token) {
+      setIsLogged(true)
+    }
+  }, [])
+
+
   return (
     <nav
       className={`sticky top-0 z-[9999] flex md:flex-row md:h-fit md:px-36 max-w-full w-full px-6 shadow-sm bg-light-fondo dark:bg-dark-fondo ${daltonismo === "normal"
@@ -44,7 +53,7 @@ function Navbar() {
           : "hidden"
           }`}
       >
-        <li>
+        <li className={`${!isLogged && "hidden"}`}>
           <Link
             href="/dashboard"
             className={`${buttonVariants({
@@ -54,7 +63,7 @@ function Navbar() {
             Dashboard
           </Link>
         </li>
-        <li>
+        <li className={`${!isLogged && "hidden"}`}>
           <Link
             href="/dashboard/contratos"
             className={`${buttonVariants({
@@ -64,7 +73,7 @@ function Navbar() {
             Contratos
           </Link>
         </li>
-        <li>
+        <li className={`${!isLogged && "hidden"}`}>
           <Link
             href="/dashboard/clientes"
             className={`${buttonVariants({
@@ -72,6 +81,16 @@ function Navbar() {
             })} lg:px-6 md:px-2 text-[1.125rem] font-semibold`}
           >
             Clientes
+          </Link>
+        </li>
+        <li className={`${isLogged && "hidden"}`}>
+          <Link
+            href="/login"
+            className={`${buttonVariants({
+              variant: "ghost",
+            })} lg:px-6 md:px-2 text-[1.125rem] font-semibold`}
+          >
+            Iniciar sesión
           </Link>
         </li>
       </ul>

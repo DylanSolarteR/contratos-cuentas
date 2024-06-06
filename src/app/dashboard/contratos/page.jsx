@@ -36,6 +36,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getClientes } from "@/actions/clientes";
+import Loading from "@/components/Loading";
 
 const data = [
   {
@@ -222,7 +223,6 @@ export const columns = [
 ]
 
 export default function HistorialContratos() {
-  const token = localStorage.getItem('token');
   const router = useRouter()
   const { daltonismo, instance } = useAppContext();
   const [sorting, setSorting] = useState([])
@@ -253,6 +253,18 @@ export default function HistorialContratos() {
     },
   })
 
+  let token = '';
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+    } else {
+      setMounted(true)
+    }
+  }, []);
+
   /*useEffect(() => {
     getClientes(instance, token).then((res) => {
       if (res != 'error') {
@@ -273,7 +285,7 @@ export default function HistorialContratos() {
     )
   }, []);*/
 
-  return (
+  return mounted ? (
     <div>
       {data?.length > 0 &&
 
@@ -406,5 +418,7 @@ export default function HistorialContratos() {
           </div>
         </div>}
     </div>
-  )
+  ) : <div className="h-screen w-screen">
+    <Loading />
+  </div>
 }

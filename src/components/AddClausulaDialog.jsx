@@ -10,15 +10,15 @@ import {
 import { useAppContext } from "@/context"
 import { CornerUpRight } from "lucide-react"
 import { Trash } from "lucide-react"
-
-
-import { addItems } from "@/actions/Items"
+import Swal from "sweetalert2";
+import { addItems, deleteItem } from "@/actions/Items"
 import { useState } from "react"
 import Tiptap from "@/components/Tiptap"
 import parse from 'html-react-parser';
 export function AddClausulaDialog() {
 
-    const { allItems, addItemNotAdded, addItemToAllItems, instance, removeItemFromAllItems } = useAppContext()
+    const { allItems, addItemNotAdded, addItemToAllItems, instance, removeItemFromAllItems, removeItemNotAdded, removeItem } = useAppContext()
+    const [open, setOpen] = useState(false)
     const [newOpen, setNewOpen] = useState(false)
     const [newTitle, setNewTitle] = useState('')
     const [newContent, setNewContent] = useState('')
@@ -35,12 +35,16 @@ export function AddClausulaDialog() {
 
 
     return (
-        <Dialog className="bg-light-fondo dark:bg-dark-fondo">
+        <Dialog
+            open={open}
+            onOpenChange={setOpen}
+            className="bg-light-fondo dark:bg-dark-fondo"
+        >
             {/* Dialogo para insertar nueva clausula */}
             <DialogTrigger asChild>
                 <Button className="p-2 font-medium border border-light-texto dark:border-dark-texto">Agregar Clausula</Button>
             </DialogTrigger>
-            <DialogContent className="max-w-[1000px] min-w-[400px] w-fit bg-light-fondo dark:bg-dark-fondo border-light-texto dark:border-dark-texto overflow-y-auto max-h-[80vh]">
+            <DialogContent className="max-w-[1000px] min-w-[400px] w-fit bg-light-fondo dark:bg-dark-fondo border-light-texto dark:border-dark-texto overflow-y-auto max-h-[80vh] z-50">
                 {/* Dialogo para crear nueva clausula */}
                 <Dialog open={newOpen} onOpenChange={setNewOpen} className="bg-light-fondo dark:bg-dark-fondo">
                     <DialogTrigger asChild className="flex">
@@ -114,8 +118,30 @@ export function AddClausulaDialog() {
                                         className="h-full"
                                         onClick={() => {
                                             // addItemNotAdded(item)
-                                            console.log(allItems)
-                                            removeItemFromAllItems(item.id)
+                                            setOpen(false);
+                                            Swal.fire({
+                                                title: "¿Confirmas la eliminación?",
+                                                icon: "question",
+                                                showCancelButton: true,
+                                                cancelButtonText: "Cancelar",
+                                                confirmButtonText: "Confirmar",
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    deleteItem(instance, item.id, localStorage.getItem('token'))
+                                                        .then((res) => {
+                                                            removeItemFromAllItems(item.id)
+                                                            removeItemNotAdded(item.id)
+                                                            removeItem(item.id)
+                                                            Swal.fire({
+                                                                title: "Eliminado",
+                                                                text: "El item ha sido eliminado",
+                                                                icon: "success",
+                                                            });
+                                                        })
+
+                                                }
+                                            });
+                                            //</div></div>
                                         }
                                         }
                                     ><Trash /></Button>

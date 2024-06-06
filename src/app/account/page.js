@@ -15,11 +15,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Loading from "@/components/Loading";
 
 function Page() {
   const { toast } = useToast();
-  const { daltonismo } = useAppContext();
-  return (
+  const { daltonismo, setIsLogged } = useAppContext();
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  let token = "";
+
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+    } else {
+      setMounted(true);
+    }
+  }, []);
+
+  return mounted ? (
     <div className="flex flex-col justify-center items-center h-[90vh] max-h-[90vh] px-4  ">
       <Tabs
         defaultValue="account"
@@ -160,7 +177,7 @@ function Page() {
                 />
               </div>
             </CardContent>
-            <CardFooter className="flex justify-center">
+            <CardFooter className="flex justify-center gap-4">
               <Button
                 variant="default"
                 onClick={() =>
@@ -196,6 +213,47 @@ function Page() {
                 }`}
               >
                 Guardar cambios
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  localStorage.setItem("token", "");
+                  setIsLogged(false);
+                  setTimeout(() => {
+                    toast({
+                      className: `bg-neutral-200/30 dark:bg-dark-fondo bg-light-fondo border-2 z-50 ${
+                        daltonismo === "normal"
+                          ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
+                          : daltonismo === "protanopia"
+                          ? "border-protanopia-light-acento-2/10 dark:border-protanopia-dark-acento-2/1"
+                          : daltonismo === "deuteranopia"
+                          ? "border-deuteranopia-light-acento-2/10 dark:border-deuteranopia-dark-acento-2/10"
+                          : "border-tritanopia-light-acento-2/10 dark:border-tritanopia-dark-acento-2/1"
+                      } shadow ${
+                        daltonismo === "normal"
+                          ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                          : daltonismo === "protanopia"
+                          ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                          : daltonismo === "deuteranopia"
+                          ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                          : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                      }`,
+                      description: "Sesión Cerrada",
+                    });
+                  }, 500);
+                  router.push("/");
+                }}
+                className={`rounded-lg font-semibold shadow ${
+                  daltonismo === "normal"
+                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                    : daltonismo === "protanopia"
+                    ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                    : daltonismo === "deuteranopia"
+                    ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                    : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                }`}
+              >
+                Cerrar Sesión
               </Button>
             </CardFooter>
           </Card>
@@ -298,6 +356,10 @@ function Page() {
           </Card>
         </TabsContent>
       </Tabs>
+    </div>
+  ) : (
+    <div className="h-screen w-screen">
+      <Loading />
     </div>
   );
 }

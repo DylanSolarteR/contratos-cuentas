@@ -2,9 +2,10 @@
 import { useAppContext } from "@/context";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import Loading from "@/components/Loading";
 
 export default function Home() {
   const router = useRouter();
@@ -12,6 +13,18 @@ export default function Home() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let token = "";
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    if (token) {
+      router.push("/dashboard");
+    } else {
+      setMounted(true);
+    }
+  }, []);
+
   const onSubmit = () => {
     if (email.length > 0 && password.length > 0) {
       instance
@@ -41,7 +54,7 @@ export default function Home() {
       });
     }
   };
-  return (
+  return mounted ? (
     <div>
       <main
         className={`flex flex-col h-[90vh] items-center justify-center px-4 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo text-shadow-sm ${
@@ -57,7 +70,7 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center gap-4">
           <h2 className="text-2xl font-bold">Iniciar sesión</h2>
           <div
-            class={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-4 shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${
+            className={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-4 shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${
               daltonismo === "normal"
                 ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
                 : daltonismo === "protanopia"
@@ -79,7 +92,7 @@ export default function Home() {
             }
             `}
           >
-            <div class=" flex flex-col justify-start items-start gap-2">
+            <div className=" flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Correo</label>
               <input
                 onChange={(e) => {
@@ -101,7 +114,7 @@ export default function Home() {
                 }`}
               />
             </div>
-            <div class="flex flex-col justify-start items-start gap-2">
+            <div className="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Contraseña</label>
               <input
                 onChange={(e) => {
@@ -154,6 +167,10 @@ export default function Home() {
           </div>
         </div>
       </main>
+    </div>
+  ) : (
+    <div className="h-screen w-screen">
+      <Loading />
     </div>
   );
 }

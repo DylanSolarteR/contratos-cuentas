@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getClientes } from "@/actions/clientes";
+import Loading from "@/components/Loading";
 
 export const columns = [
   {
@@ -110,7 +111,7 @@ export const columns = [
 ]
 
 export default function DataTableDemo() {
-  const token = localStorage?.getItem('token');
+  let token = '';
   const router = useRouter()
   const { daltonismo, instance } = useAppContext();
   const [sorting, setSorting] = useState([])
@@ -141,7 +142,14 @@ export default function DataTableDemo() {
     },
   })
 
+  const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
+    token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+    }
+    setMounted(true)
     getClientes(instance, token).then((res) => {
       if (res != 'error') {
         setData(res)
@@ -161,7 +169,7 @@ export default function DataTableDemo() {
     )
   }, []);
 
-  return (
+  return mounted ? (
     <div>
       {data?.length > 0 &&
 
@@ -294,7 +302,9 @@ export default function DataTableDemo() {
           </div>
         </div>}
     </div>
-  )
+  ) : <div className="h-screen w-screen">
+    <Loading />
+  </div>
 }
 
 

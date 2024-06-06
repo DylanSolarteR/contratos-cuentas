@@ -27,10 +27,10 @@ module.exports = {
       },
       colors: {
         light: {
-          fondo: "#F2F2F2",
+          fondo: "#eaeaea",
           texto: "#333333",
-          "acento-1": "#007BFF",
-          "acento-2": "#66CCCC",
+          "acento-1": "#017Baa",
+          "acento-2": "#66Caca",
         },
         dark: {
           fondo: "#222222",

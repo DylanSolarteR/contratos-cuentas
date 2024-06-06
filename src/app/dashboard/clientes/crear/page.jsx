@@ -4,9 +4,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 export default function CrearCliente() {
     const router = useRouter()
@@ -18,7 +19,15 @@ export default function CrearCliente() {
     const [adress, setAdress] = useState("");
     const [email, setEmail] = useState("");
 
-    const token = localStorage.getItem('token');
+    let token = "";
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        token = localStorage.getItem("token");
+        if (!token) {
+            router.push("/login");
+        }
+        setMounted(true);
+    }, []);
 
     const onSubmit = () => {
         if (name != "" && type != "" && document != "" && phone != "" && adress != "") {
@@ -41,9 +50,9 @@ export default function CrearCliente() {
                             direccion: adress,
                         }, {
                             headers: {
-                              Authorization: `Bearer ${token}`,
+                                Authorization: `Bearer ${token}`,
                             },
-                          })
+                        })
                         .then((response) => {
                             if (response.status === 200) {
                                 router.push("/dashboard/clientes");
@@ -69,28 +78,28 @@ export default function CrearCliente() {
         }
     };
 
-    return (
+    return mounted ? (
         <div>
             <main
                 className={`flex flex-col h-[90vh] items-center justify-center px-4 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo text-shadow-sm ${daltonismo === "normal"
-                        ? "text-light-texto shadow-light-acento-2 dark:text-dark-texto dark:shadow-dark-acento-2"
-                        : daltonismo === "protanopia"
-                            ? "text-protanopia-light-texto shadow-protanopia-light-acento-2 dark:text-protanopia-dark-texto dark:shadow-protanopia-dark-acento-2"
-                            : daltonismo === "deuteranopia"
-                                ? "text-deuteranopia-light-texto shadow-deuteranopia-light-acento-2 dark:text-deuteranopia-dark-texto dark:shadow-deuteranopia-dark-acento-2"
-                                : "text-tritanopia-light-texto shadow-tritanopia-light-acento-2 dark:text-tritanopia-dark-texto dark:shadow-tritanopia-dark-acento-2"
+                    ? "text-light-texto shadow-light-acento-2 dark:text-dark-texto dark:shadow-dark-acento-2"
+                    : daltonismo === "protanopia"
+                        ? "text-protanopia-light-texto shadow-protanopia-light-acento-2 dark:text-protanopia-dark-texto dark:shadow-protanopia-dark-acento-2"
+                        : daltonismo === "deuteranopia"
+                            ? "text-deuteranopia-light-texto shadow-deuteranopia-light-acento-2 dark:text-deuteranopia-dark-texto dark:shadow-deuteranopia-dark-acento-2"
+                            : "text-tritanopia-light-texto shadow-tritanopia-light-acento-2 dark:text-tritanopia-dark-texto dark:shadow-tritanopia-dark-acento-2"
                     }`}
             >
                 <div className="flex flex-col justify-center items-center gap-4">
                     <h2 className="text-2xl font-bold">Registro cliente nuevo</h2>
                     <div
-                        class={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-5  shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${daltonismo === "normal"
-                                ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
-                                : daltonismo === "protanopia"
-                                    ? "border-protanopia-light-acento-2/10 dark:border-protanopia-dark-acento-2/1"
-                                    : daltonismo === "deuteranopia"
-                                        ? "border-deuteranopia-light-acento-2/10 dark:border-deuteranopia-dark-acento-2/10"
-                                        : "border-tritanopia-light-acento-2/10 dark:border-tritanopia-dark-acento-2/1"
+                        className={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-5  shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${daltonismo === "normal"
+                            ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
+                            : daltonismo === "protanopia"
+                                ? "border-protanopia-light-acento-2/10 dark:border-protanopia-dark-acento-2/1"
+                                : daltonismo === "deuteranopia"
+                                    ? "border-deuteranopia-light-acento-2/10 dark:border-deuteranopia-dark-acento-2/10"
+                                    : "border-tritanopia-light-acento-2/10 dark:border-tritanopia-dark-acento-2/1"
                             }
             ${daltonismo === "normal"
                                 ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
@@ -102,7 +111,7 @@ export default function CrearCliente() {
                             }
             `}
                     >
-                        <div class=" flex flex-col justify-start items-start gap-2">
+                        <div className=" flex flex-col justify-start items-start gap-2">
                             <label className="font-semibold">Nombre Completo</label>
                             <input
                                 onChange={(e) => {
@@ -114,16 +123,16 @@ export default function CrearCliente() {
                                 placeholder="Ingrese el nombre"
                                 required
                                 className={`text-center rounded-md shadow ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             />
                         </div>
-                        <div class="justify-start items-start gap-2">
+                        <div className="justify-start items-start gap-2">
                             <label className="font-semibold">Tipo</label>
                             <select
                                 defaultValue={"persona"}
@@ -137,12 +146,12 @@ export default function CrearCliente() {
                                 placeholder="Seleccione el tipo de documento "
                                 required
                                 className={`text-center rounded-md shadow ml-11 ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             >
                                 <option value="CC">CC</option>
@@ -150,7 +159,7 @@ export default function CrearCliente() {
                                 <option value="PASS">Pasaporte</option>
                             </select>
                         </div>
-                        <div class=" flex flex-col justify-start items-start gap-2">
+                        <div className=" flex flex-col justify-start items-start gap-2">
                             <label className="font-semibold">Documento</label>
                             <input
                                 onChange={(e) => {
@@ -162,16 +171,16 @@ export default function CrearCliente() {
                                 placeholder="Ingrese el documento"
                                 required
                                 className={`text-center rounded-md shadow ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             />
                         </div>
-                        <div class=" flex flex-col justify-start items-start gap-2">
+                        <div className=" flex flex-col justify-start items-start gap-2">
                             <label className="font-semibold">Correo</label>
                             <input
                                 onChange={(e) => {
@@ -183,16 +192,16 @@ export default function CrearCliente() {
                                 placeholder="Ingrese el correo"
                                 required
                                 className={`text-center rounded-md shadow ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             />
                         </div>
-                        <div class=" flex flex-col justify-start items-start gap-2">
+                        <div className=" flex flex-col justify-start items-start gap-2">
                             <label className="font-semibold">Teléfono</label>
                             <input
                                 onChange={(e) => {
@@ -204,16 +213,16 @@ export default function CrearCliente() {
                                 placeholder="Ingrese el Teléfono"
                                 required
                                 className={`text-center rounded-md shadow ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             />
                         </div>
-                        <div class=" flex flex-col justify-start items-start gap-2">
+                        <div className=" flex flex-col justify-start items-start gap-2">
                             <label className="font-semibold">Dirección</label>
                             <input
                                 onChange={(e) => {
@@ -225,12 +234,12 @@ export default function CrearCliente() {
                                 placeholder="Ingrese la dirección"
                                 required
                                 className={`text-center rounded-md shadow ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             />
                         </div>
@@ -240,12 +249,12 @@ export default function CrearCliente() {
                                 onClick={onSubmit}
                                 variant="default"
                                 className={`rounded-lg font-semibold shadow ${daltonismo === "normal"
-                                        ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
-                                        : daltonismo === "protanopia"
-                                            ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
-                                            : daltonismo === "deuteranopia"
-                                                ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
-                                                : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
+                                    ? "shadow-light-acento-2/80 dark:shadow-dark-acento-2/80"
+                                    : daltonismo === "protanopia"
+                                        ? "shadow-protanopia-light-acento-2/80 dark:shadow-protanopia-dark-acento-2/80"
+                                        : daltonismo === "deuteranopia"
+                                            ? "shadow-deuteranopia-light-acento-2/80 dark:shadow-deuteranopia-dark-acento-2/80"
+                                            : "shadow-tritanopia-light-acento-2/80 dark:shadow-tritanopia-dark-acento-2/80"
                                     }`}
                             >
                                 Registrar cliente
@@ -255,5 +264,7 @@ export default function CrearCliente() {
                 </div>
             </main>
         </div>
-    );
+    ) : <div className="h-screen w-screen">
+        <Loading />
+    </div>;
 }

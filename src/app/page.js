@@ -3,7 +3,6 @@ import { useAppContext } from "@/context";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
 export default function Home() {
   const { daltonismo } = useAppContext();
 
@@ -21,7 +20,7 @@ export default function Home() {
             ? "text-deuteranopia-light-texto dark:text-deuteranopia-dark-texto"
             : "text-tritanopia-light-texto dark:text-tritanopia-dark-texto"
         }
-          
+
           ${
             daltonismo === "normal"
               ? " shadow-light-acento-2 dark:shadow-dark-acento-2"

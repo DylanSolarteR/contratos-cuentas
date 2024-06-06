@@ -4,9 +4,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 export default function Home() {
   const router = useRouter();
@@ -17,6 +18,17 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  let token = "";
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    if (token) {
+      router.push("/dashboard");
+    } else {
+      setMounted(true);
+    }
+  }, []);
 
   const onSubmit = () => {
     if (
@@ -75,7 +87,7 @@ export default function Home() {
     }
   };
 
-  return (
+  return mounted ? (
     <div className="py-10">
       <main
         className={`flex flex-col h-[90vh] items-center justify-center px-4 md:px-36 py-4 bg-light-fondo dark:bg-dark-fondo text-shadow-sm ${
@@ -91,7 +103,7 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center gap-4 ">
           <h2 className="text-2xl font-bold">Registro</h2>
           <div
-            class={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-5  shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${
+            className={`w-fit m-auto h-fit rounded-lg flex flex-col justify-center items-center p-4 gap-5  shadow-md bg-neutral-200/30 dark:bg-dark-fondo dark:shadow-lg border ${
               daltonismo === "normal"
                 ? "border-light-acento-2/10 dark:border-dark-acento-2/10"
                 : daltonismo === "protanopia"
@@ -111,7 +123,7 @@ export default function Home() {
             }
             `}
           >
-            <div class=" flex flex-col justify-start items-start gap-2">
+            <div className=" flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Nombre</label>
               <input
                 onChange={(e) => {
@@ -133,7 +145,7 @@ export default function Home() {
                 }`}
               />
             </div>
-            <div class=" flex flex-col justify-start items-start gap-2">
+            <div className=" flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Documento</label>
               <input
                 onChange={(e) => {
@@ -155,7 +167,7 @@ export default function Home() {
                 }`}
               />
             </div>
-            <div class="justify-start items-start gap-2">
+            <div className="justify-start items-start gap-2">
               <label className="font-semibold">Tipo</label>
               <select
                 defaultValue={"persona"}
@@ -182,7 +194,7 @@ export default function Home() {
                 <option value="empresa">Persona juridica</option>
               </select>
             </div>
-            <div class=" flex flex-col justify-start items-start gap-2">
+            <div className=" flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Correo</label>
               <input
                 onChange={(e) => {
@@ -204,7 +216,7 @@ export default function Home() {
                 }`}
               />
             </div>
-            <div class="flex flex-col justify-start items-start gap-2">
+            <div className="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Contraseña</label>
               <input
                 onChange={(e) => {
@@ -229,7 +241,7 @@ export default function Home() {
                 La contraseña debe contener minimo 8 caracteres.
               </p>
             </div>
-            <div class="flex flex-col justify-start items-start gap-2">
+            <div className="flex flex-col justify-start items-start gap-2">
               <label className="font-semibold">Confirmar Contraseña</label>
               <input
                 onChange={(e) => {
@@ -286,6 +298,10 @@ export default function Home() {
           </div>
         </div>
       </main>
+    </div>
+  ) : (
+    <div className="h-screen w-screen">
+      <Loading />
     </div>
   );
 }

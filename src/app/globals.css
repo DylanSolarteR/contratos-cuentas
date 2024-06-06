@@ -93,3 +93,7 @@
     border-radius: 5px;
   }
 }
+
+.swal2-container {
+  z-index: 51;
+}

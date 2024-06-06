@@ -15,7 +15,9 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import Swal from "sweetalert2";
-
+import parse from 'html-react-parser';
+import { getItemsEncabezados } from "@/actions/Items";
+import { LoaderCircle } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import {
     Carousel,
@@ -50,9 +52,12 @@ function NuevaPlantillaDialog() {
 
     useEffect(() => {
         //fetch de los encabezados
-        //then
-        //setEncabezados(response.data)
-
+        getItemsEncabezados(instance, token).then((res) => {
+            if (res != 'error') {
+                setEncabezados(res)
+                setSelectedEncabezado(res[0])
+            }
+        })
     }, [])
 
 
@@ -72,6 +77,7 @@ function NuevaPlantillaDialog() {
                         .post("/plantilla", {
                             nombre: name,
                             status: "borrador",
+                            encabezado: selectedEncabezado._id
                         }, {
                             headers: {
                                 Authorization: `Bearer ${token}`,
@@ -103,12 +109,12 @@ function NuevaPlantillaDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="mt-2 group border h-[188px] items-center justify-center flex flex-col hover:border-primary border-primary gap-4 bg-transparent">
+                <Button className="border h-full items-center justify-center flex flex-col hover:border-primary border-primary gap-4 bg-transparent">
                     <Plus />
                     Crear plantilla
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-[600px] bg-light-fondo dark:bg-dark-fondo">
+            <DialogContent className="max-w-[600px] bg-light-fondo dark:bg-dark-fondo border-light-texto dark:border-dark-texto">
                 <DialogHeader>
                     <DialogTitle>Crear nueva plantilla</DialogTitle>
                 </DialogHeader>
@@ -129,23 +135,15 @@ function NuevaPlantillaDialog() {
                         </Label>
                         <Carousel name='carousel' setApi={setApi} className=" w-full max-w-[80%]" >
                             <CarouselContent>
-                                {(encabezados.length === 0) && Array.from({ length: 5 }).map((_, index) => (
-                                    <CarouselItem key={index}>
-                                        <div className="p-1">
-                                            <Card className="bg-transparent border-light-texto dark:border-dark-texto">
-                                                <CardContent className="flex aspect-square items-center justify-center p-6">
-                                                    <span className="text-4xl font-semibold">{index + 1}</span>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
+                                {(encabezados.length === 0) &&
+                                    <div className='text-light-texto dark:text-dark-texto flex items-center justify-center w-full h-full'><LoaderCircle className='animate-spin h-12 w-12' /></div>
+                                }
                                 {(encabezados.length > 0) && encabezados.map((encabezado, index) => (
                                     <CarouselItem key={index}>
                                         <div className="p-1">
                                             <Card className="bg-transparent border-light-texto dark:border-dark-texto">
                                                 <CardContent className="flex aspect-square items-center justify-center p-6">
-                                                    <span className="text-4xl font-semibold">{encabezado.contenido}</span>
+                                                    <span className="text-md font-semibold text-justify">{parse(encabezado.contenido)}</span>
                                                 </CardContent>
                                             </Card>
                                         </div>

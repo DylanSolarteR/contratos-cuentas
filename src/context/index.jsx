@@ -83,6 +83,8 @@ export function AppWrapper({ children }) {
     },
   ]); //Plantillas
 
+  const [isLogged, setIsLogged] = useState(false);
+
   const addPlantilla = (plantilla) => {
     setPlantillas((prevPlantillas) => {
       return [...prevPlantillas, plantilla]
@@ -113,7 +115,7 @@ export function AppWrapper({ children }) {
 
   const removeItem = (itemId) => {
     setItems((prevItems) => {
-      return prevItems.filter((item) => item.id !== itemId)
+      return prevItems.filter((item) => item.itemId !== itemId)
     })
   }
 
@@ -169,6 +171,8 @@ export function AppWrapper({ children }) {
         removePlantilla,
         cuentas,
         setCuentas,
+        isLogged,
+        setIsLogged,
       }}
     >
       {children}
