@@ -79,7 +79,7 @@ function ContratoPlantillaCard({ title, estado, idPlantilla }) {
                     <CardTitle className="overflow-auto text-xl w-full">{title}</CardTitle>
                 </CardContent>
                 <CardFooter className="grid grid-cols-2 gap-2">
-                    {estado == 'aprobada' && <ElegirClienteDialog />}
+                    {estado == 'aprobada' && <ElegirClienteDialog idPlantila={idPlantilla} />}
                     <Button onClick={onEdit} className={`shadow-lg border border-dark-fondo/20 ${daltonismo === "normal"
                         ? "bg-light-acento-2  dark:bg-dark-acento-2"
                         : daltonismo === "protanopia"

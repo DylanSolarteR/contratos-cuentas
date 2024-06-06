@@ -13,156 +13,157 @@ import { useAppContext } from "@/context"
 import { useEffect, useState } from "react"
 import Loading from "@/components/Loading";
 import { getClientes } from "@/actions/clientes";
+import { generateContrato } from "@/actions/contrato";
 
-function ElegirClienteDialog() {
+function ElegirClienteDialog({ idPlantila }) {
     const [open, setOpen] = useState(false)
     const [clientes, setClientes] = useState([])
     const [clientesSeleccionados, setClientesSeleccionados] = useState([])
     const { daltonismo, instance } = useAppContext()
     const [loading, setLoading] = useState(true)
 
-    const mockdata = [
-        {
-            _id: 1,
-            nombreCompleto: "Juan",
-            tipoDocumento: "CC",
-            documento: 123456789,
-            email: "example@mail.com"
-        },
-        {
-            _id: 2,
-            nombreCompleto: "Andres",
-            tipoDocumento: "CC",
-            documento: 234567891,
-            email: "example@mail.com"
-        },
-        {
-            _id: 3,
-            nombreCompleto: "Carlos",
-            tipoDocumento: "CC",
-            documento: 345678912,
-            email: "example@mail.com"
-        },
-        {
-            _id: 4,
-            nombreCompleto: "Bryan",
-            tipoDocumento: "CC",
-            documento: 456789123,
-            email: "example@mail.com"
-        },
-        {
-            _id: 5,
-            nombreCompleto: "Ricardo",
-            tipoDocumento: "CC",
-            documento: 567891234,
-            email: "example@mail.com"
-        },
-        {
-            _id: 6,
-            nombreCompleto: "David",
-            tipoDocumento: "CC",
-            documento: 678912345,
-            email: "example@mail.com"
-        },
-        {
-            _id: 7,
-            nombreCompleto: "Camilo",
-            tipoDocumento: "CC",
-            documento: 789123456,
-            email: "example@mail.com"
-        },
-        {
-            _id: 8,
-            nombreCompleto: "Felipe",
-            tipoDocumento: "CC",
-            documento: 891234567,
-            email: "example@mail.com"
-        },
-        {
-            _id: 9,
-            nombreCompleto: "Santiago",
-            tipoDocumento: "CC",
-            documento: 912345678,
-            email: "example@mail.com"
-        },
-        {
-            _id: 10,
-            nombreCompleto: "Luis",
-            tipoDocumento: "CC",
-            documento: 123456789,
-            email: "example@mail.com"
-        },
-        {
-            _id: 11,
-            nombreCompleto: "Juan",
-            tipoDocumento: "CC",
-            documento: 123456789,
-            email: "example@mail.com"
-        },
-        {
-            _id: 12,
-            nombreCompleto: "Andres",
-            tipoDocumento: "CC",
-            documento: 234567891,
-            email: "example@mail.com"
-        },
-        {
-            _id: 13,
-            nombreCompleto: "Carlos",
-            tipoDocumento: "CC",
-            documento: 345678912,
-            email: "example@mail.com"
-        },
-        {
-            _id: 14,
-            nombreCompleto: "Bryan",
-            tipoDocumento: "CC",
-            documento: 456789123,
-            email: "example@mail.com"
-        },
-        {
-            _id: 15,
-            nombreCompleto: "Ricardo",
-            tipoDocumento: "CC",
-            documento: 567891234,
-            email: "example@mail.com"
-        },
-        {
-            _id: 16,
-            nombreCompleto: "David",
-            tipoDocumento: "CC",
-            documento: 678912345,
-            email: "example@mail.com"
-        },
-        {
-            _id: 17,
-            nombreCompleto: "Camilo",
-            tipoDocumento: "CC",
-            documento: 789123456,
-            email: "example@mail.com"
-        },
-        {
-            _id: 18,
-            nombreCompleto: "Felipe",
-            tipoDocumento: "CC",
-            documento: 891234567,
-            email: "example@mail.com"
-        },
-        {
-            _id: 19,
-            nombreCompleto: "Santiago",
-            tipoDocumento: "CC",
-            documento: 912345678,
-            email: "example@mail.com"
-        },
-        {
-            _id: 20,
-            nombreCompleto: "Luis",
-            tipoDocumento: "CC",
-            documento: 123456789,
-            email: "example@mail.com"
-        },
-    ]
+    // const mockdata = [
+    //     {
+    //         _id: 1,
+    //         nombreCompleto: "Juan",
+    //         tipoDocumento: "CC",
+    //         documento: 123456789,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 2,
+    //         nombreCompleto: "Andres",
+    //         tipoDocumento: "CC",
+    //         documento: 234567891,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 3,
+    //         nombreCompleto: "Carlos",
+    //         tipoDocumento: "CC",
+    //         documento: 345678912,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 4,
+    //         nombreCompleto: "Bryan",
+    //         tipoDocumento: "CC",
+    //         documento: 456789123,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 5,
+    //         nombreCompleto: "Ricardo",
+    //         tipoDocumento: "CC",
+    //         documento: 567891234,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 6,
+    //         nombreCompleto: "David",
+    //         tipoDocumento: "CC",
+    //         documento: 678912345,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 7,
+    //         nombreCompleto: "Camilo",
+    //         tipoDocumento: "CC",
+    //         documento: 789123456,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 8,
+    //         nombreCompleto: "Felipe",
+    //         tipoDocumento: "CC",
+    //         documento: 891234567,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 9,
+    //         nombreCompleto: "Santiago",
+    //         tipoDocumento: "CC",
+    //         documento: 912345678,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 10,
+    //         nombreCompleto: "Luis",
+    //         tipoDocumento: "CC",
+    //         documento: 123456789,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 11,
+    //         nombreCompleto: "Juan",
+    //         tipoDocumento: "CC",
+    //         documento: 123456789,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 12,
+    //         nombreCompleto: "Andres",
+    //         tipoDocumento: "CC",
+    //         documento: 234567891,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 13,
+    //         nombreCompleto: "Carlos",
+    //         tipoDocumento: "CC",
+    //         documento: 345678912,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 14,
+    //         nombreCompleto: "Bryan",
+    //         tipoDocumento: "CC",
+    //         documento: 456789123,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 15,
+    //         nombreCompleto: "Ricardo",
+    //         tipoDocumento: "CC",
+    //         documento: 567891234,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 16,
+    //         nombreCompleto: "David",
+    //         tipoDocumento: "CC",
+    //         documento: 678912345,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 17,
+    //         nombreCompleto: "Camilo",
+    //         tipoDocumento: "CC",
+    //         documento: 789123456,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 18,
+    //         nombreCompleto: "Felipe",
+    //         tipoDocumento: "CC",
+    //         documento: 891234567,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 19,
+    //         nombreCompleto: "Santiago",
+    //         tipoDocumento: "CC",
+    //         documento: 912345678,
+    //         email: "example@mail.com"
+    //     },
+    //     {
+    //         _id: 20,
+    //         nombreCompleto: "Luis",
+    //         tipoDocumento: "CC",
+    //         documento: 123456789,
+    //         email: "example@mail.com"
+    //     },
+    // ]
 
     useEffect(() => {
         getClientes(instance, localStorage.getItem("token")).then((res) => {
@@ -192,7 +193,11 @@ function ElegirClienteDialog() {
             )
             return
         }
-        //Aca se generaria el contrato
+
+        //iterar por cada cliente seleccionado y generar el contrato con el id de la plantilla
+        clientesSeleccionados.forEach((cliente) => {
+            generateContrato(instance, localStorage.getItem("token"), idPlantila, cliente._id)
+        })
 
         Swal.fire({
             title: "Contratos generados",
