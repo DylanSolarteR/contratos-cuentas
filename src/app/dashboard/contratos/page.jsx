@@ -36,115 +36,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Loading from "@/components/Loading";
-import { getContratos } from "@/actions/contrato";
-
-/*const data = [
-  {
-    codigo: "INV001",
-    documento: "486516898",
-    cliente: "Juan perea",
-    fecha: "20/10/12",
-    telefono: "3132314645",
-  },
-  {
-    codigo: "INV002",
-    documento: "486516265",
-    cliente: "María López",
-    fecha: "15/12/12",
-    telefono: "31323146489",
-  },
-  {
-    codigo: "INV003",
-    documento: "486516987",
-    cliente: "Pedro Ramirez",
-    fecha: "10/01/13",
-    telefono: "3132314656",
-  },
-  {
-    codigo: "INV004",
-    documento: "486516456",
-    cliente: "Luisa Martínez",
-    fecha: "05/02/13",
-    telefono: "31323146161",
-  },
-  {
-    codigo: "INV005",
-    documento: "486516456",
-    cliente: "Carlos González",
-    fecha: "30/03/13",
-    telefono: "3132314665",
-  },
-  {
-    codigo: "INV006",
-    documento: "486516456",
-    cliente: "Ana Fernández",
-    fecha: "25/04/13",
-    telefono: "3132314789",
-  },
-  {
-    codigo: "INV007",
-    documento: "486516456",
-    cliente: "Sofía García",
-    fecha: "20/05/13",
-    telefono: "3132314789",
-  },
-  {
-    codigo: "INV008",
-    documento: "486516456",
-    cliente: "Javier Ruiz",
-    fecha: "15/06/13",
-    telefono: "31323178945",
-  },
-  {
-    codigo: "INV009",
-    documento: "486516456",
-    cliente: "Elena Sánchez",
-    fecha: "10/07/13",
-    telefono: "3132314321",
-  },
-  {
-    codigo: "INV010",
-    documento: "486516456",
-    cliente: "Diego López",
-    fecha: "05/08/13",
-    telefono: "313231+6156",
-  },
-  {
-    codigo: "INV011",
-    documento: "486516456",
-    cliente: "Laura Pérez",
-    fecha: "30/09/13",
-    telefono: "313231498",
-  },
-  {
-    codigo: "INV012",
-    documento: "486516456",
-    cliente: "Andrés Hernández",
-    fecha: "25/10/13",
-    telefono: "3132314645",
-  },
-  {
-    codigo: "INV013",
-    documento: "486516456",
-    cliente: "Isabel Díaz",
-    fecha: "20/11/13",
-    telefono: "3132314645",
-  },
-  {
-    codigo: "INV014",
-    documento: "486516369",
-    cliente: "Miguel Torres",
-    fecha: "15/12/13",
-    telefono: "3132314645",
-  },
-  {
-    codigo: "INV015",
-    documento: "486516741",
-    cliente: "Patricia García",
-    fecha: "10/01/14",
-    telefono: "3132314645",
-  },
-];*/
+import { getContratos, descargarContrato } from "@/actions/contrato";
+import Swal from "sweetalert2";
 
 export const columns = [
   {
@@ -208,13 +101,38 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => {
+
+                const axios = require('axios').default;
+                const instance = axios.create({
+                  baseURL: 'http://localhost:3001/api/v1',
+                });
+                descargarContrato(instance, localStorage.getItem("token"), payment._id).then((res) => {
+                  if (res != 'error') {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Listo',
+                      text: 'Contrato descargado',
+                    })
+                  } else {
+                    throw new Error('error')
+                  }
+                }).catch((err) => {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo descargar el contrato',
+                  }).then(() => {
+                    console.log("F")
+                    //router.push('/dashboard')
+                  })
+
+                }
+                )
+              }}
             >
-              Copy payment ID
+              Descargar contrato
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
