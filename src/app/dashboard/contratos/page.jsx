@@ -108,7 +108,7 @@ export const columns = [
                   baseURL: 'http://localhost:3001/api/v1',
                 });
                 descargarContrato(instance, localStorage.getItem("token"), payment._id).then((res) => {
-                  if (res != 'error') {
+                  if (res === true) {
                     Swal.fire({
                       icon: 'success',
                       title: 'Listo',
@@ -122,9 +122,6 @@ export const columns = [
                     icon: 'error',
                     title: 'Error',
                     text: 'No se pudo descargar el contrato',
-                  }).then(() => {
-                    console.log("F")
-                    //router.push('/dashboard')
                   })
 
                 }
