@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/table"
 import { getClientes } from "@/actions/clientes";
 import Loading from "@/components/Loading";
+import Swal from "sweetalert2";
 
 export const columns = [
   {
@@ -94,24 +95,60 @@ export const columns = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => {
+                const axios = require('axios').default;
+
+                Swal.fire({
+                  title: "Enviar",
+                  text: "¿Quieres eliminar el cliente?",
+                  icon: "question",
+                  showCancelButton: true,
+                  cancelButtonText: "Cancelar",
+                  confirmButtonText: "Confirmar",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    axios.delete(`http://localhost:3001/api/v1/cliente/${payment._id}`, {
+                      headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                      },
+                    })
+                      .then((response) => {
+                        if (response.status === 200) {
+                          Swal.fire({
+                            title: "Listo",
+                            text: "Usuario eliminado",
+                            icon: "success",
+                          }).then(() => {
+                            window.location.reload()
+                          })
+                        }
+                      })
+                      .catch((err) => {
+                        console.log(err)
+                        Swal.fire({
+                          title: "Error de eliminación",
+                          text: "No se pudo eliminar",
+                          icon: "error",
+                          confirmButtonText: "OK",
+                        });
+                      });
+                  }
+                });
+              }}
             >
-              Copy payment ID
+              Eliminar cliente
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu >
       )
     },
   },
 ]
 
 export default function DataTableDemo() {
-  let token = '';
+  const [token, setToken] = useState("");
   const router = useRouter()
   const { daltonismo, instance } = useAppContext();
   const [sorting, setSorting] = useState([])
@@ -145,28 +182,30 @@ export default function DataTableDemo() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    token = localStorage.getItem("token");
-    if (!token) {
+    setToken(localStorage.getItem("token"));
+    if (!localStorage.getItem("token")) {
       router.push("/login");
-    }
-    setMounted(true)
-    getClientes(instance, token).then((res) => {
-      if (res != 'error') {
-        setData(res)
-      } else {
-        throw new Error('error')
-      }
-    }).catch((err) => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudieron encontrar los clientes',
-      }).then(() => {
-        router.push('/dashboard')
-      })
+    } else {
+      getClientes(instance, localStorage.getItem("token")).then((res) => {
+        if (res != 'error') {
+          setData(res)
+        } else {
+          throw new Error('error')
+        }
+      }).catch((err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron encontrar los clientes',
+        }).then(() => {
+          router.push('/dashboard')
+        })
 
+      }
+      )
+
+      setMounted(true)
     }
-    )
   }, []);
 
   return mounted ? (

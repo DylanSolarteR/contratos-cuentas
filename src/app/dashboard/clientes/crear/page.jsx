@@ -18,15 +18,15 @@ export default function CrearCliente() {
     const [phone, setPhone] = useState("");
     const [adress, setAdress] = useState("");
     const [email, setEmail] = useState("");
-
-    let token = "";
+    const [token, setToken] = useState("");
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
-        token = localStorage.getItem("token");
-        if (!token) {
+        setToken(localStorage.getItem("token"));
+        if (!localStorage.getItem("token")) {
             router.push("/login");
+        } else {
+            setMounted(true);
         }
-        setMounted(true);
     }, []);
 
     const onSubmit = () => {
@@ -39,6 +39,7 @@ export default function CrearCliente() {
                 cancelButtonText: "Cancelar",
                 confirmButtonText: "Confirmar",
             }).then((result) => {
+                console.log(token)
                 if (result.isConfirmed) {
                     instance
                         .post("/cliente", {
