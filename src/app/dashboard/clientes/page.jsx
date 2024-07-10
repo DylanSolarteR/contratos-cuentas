@@ -34,6 +34,7 @@ import {
 import { getClientes } from "@/actions/clientes";
 import Loading from "@/components/Loading";
 import Swal from "sweetalert2";
+import { cn } from "@/lib/utils";
 
 export const columns = [
   {
@@ -212,7 +213,7 @@ export default function DataTableDemo() {
     <div>
       {data?.length > 0 &&
 
-        <div className="w-full mx-2" >
+        <div className="w-full px-36" >
           <div className="pt-6 justify-center w-full flex">
             <Button
               onClick={() => { router.push('/dashboard/clientes/crear') }}
@@ -252,7 +253,15 @@ export default function DataTableDemo() {
                     return (
                       <DropdownMenuCheckboxItem
                         key={column.id}
-                        className="capitalize"
+                        className={cn("capitalize",
+                          daltonismo === "normal"
+                            ? " focus:bg-light-acento-2 focus:dark:bg-dark-acento-2"
+                            : daltonismo === "protanopia"
+                              ? "focus:bg-protanopia-light-acento-2 focus:dark:bg-protanopia-dark-acento-2"
+                              : daltonismo === "deuteranopia"
+                                ? "focus:bg-deuteranopia-light-acento-2 focus:dark:bg-deuteranopia-dark-acento-2"
+                                : "focus:bg-tritanopia-light-acento-2 focus:dark:bg-tritanopia-dark-acento-2"
+                        )}
                         checked={column.getIsVisible()}
                         onCheckedChange={(value) =>
                           column.toggleVisibility(!!value)
@@ -265,11 +274,42 @@ export default function DataTableDemo() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
+          <div className="rounded-md w-full">
+            <Table className={cn("border rounded-md w-full",
+              daltonismo === "normal"
+                ? "border-light-acento-2/40 dark:border-dark-acento-2/40"
+                : daltonismo === "protanopia"
+                  ? "border-protanopia-light-acento-2/40 dark:border-protanopia-dark-acento-2/40"
+                  : daltonismo === "deuteranopia"
+                    ? "border-deuteranopia-light-acento-2/40 dark:border-deuteranopia-dark-acento-2/40"
+                    : "border-tritanopia-light-acento-2/40 dark:border-tritanopia-dark-acento-2/40"
+            )}>
+              <TableHeader className={cn("rounded-md", daltonismo === "normal"
+                ? "hover:bg-light-acento-2/40 dark:hover:bg-dark-acento-2/40"
+                : daltonismo === "protanopia"
+                  ? "hover:bg-protanopia-light-acento-2/40 dark:hover:bg-protanopia-dark-acento-2/40"
+                  : daltonismo === "deuteranopia"
+                    ? "hover:bg-deuteranopia-light-acento-2/40 dark:hover:bg-deuteranopia-dark-acento-2/40"
+                    : "hover:bg-tritanopia-light-acento-2/40 dark:hover:bg-tritanopia-dark-acento-2/40",
+                daltonismo === "normal"
+                  ? "border-light-acento-2/40 dark:border-dark-acento-2/40"
+                  : daltonismo === "protanopia"
+                    ? "border-protanopia-light-acento-2/40 dark:border-protanopia-dark-acento-2/40"
+                    : daltonismo === "deuteranopia"
+                      ? "border-deuteranopia-light-acento-2/40 dark:border-deuteranopia-dark-acento-2/40"
+                      : "border-tritanopia-light-acento-2/40 dark:border-tritanopia-dark-acento-2/40"
+              )}>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow key={headerGroup.id}
+                    className={cn("border-0 rounded-md",
+                      daltonismo === "normal"
+                        ? "border-b-light-acento-2/40 dark:border-b-dark-acento-2/40"
+                        : daltonismo === "protanopia"
+                          ? "border-b-protanopia-light-acento-2/40 dark:border-b-protanopia-dark-acento-2/40"
+                          : daltonismo === "deuteranopia"
+                            ? "border-b-deuteranopia-light-acento-2/40 dark:border-b-deuteranopia-dark-acento-2/40"
+                            : "border-b-tritanopia-light-acento-2/40 dark:border-b-tritanopia-dark-acento-2/40"
+                    )}>
                     {headerGroup.headers.map((header) => {
                       return (
                         <TableHead key={header.id}>
@@ -291,6 +331,22 @@ export default function DataTableDemo() {
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
+                      className={cn(daltonismo === "normal"
+                        ? "hover:bg-light-acento-2/40 dark:hover:bg-dark-acento-2/40"
+                        : daltonismo === "protanopia"
+                          ? "hover:bg-protanopia-light-acento-2/40 dark:hover:bg-protanopia-dark-acento-2/40"
+                          : daltonismo === "deuteranopia"
+                            ? "hover:bg-deuteranopia-light-acento-2/40 dark:hover:bg-deuteranopia-dark-acento-2/40"
+                            : "hover:bg-tritanopia-light-acento-2/40 dark:hover:bg-tritanopia-dark-acento-2/40"
+                        ,
+                        daltonismo === "normal"
+                          ? "border-b-light-acento-2/40 dark:border-b-dark-acento-2/40"
+                          : daltonismo === "protanopia"
+                            ? "border-b-protanopia-light-acento-2/40 dark:border-b-protanopia-dark-acento-2/40"
+                            : daltonismo === "deuteranopia"
+                              ? "border-b-deuteranopia-light-acento-2/40 dark:border-b-deuteranopia-dark-acento-2/40"
+                              : "border-b-tritanopia-light-acento-2/40 dark:border-b-tritanopia-dark-acento-2/40"
+                      )}
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>
@@ -340,7 +396,7 @@ export default function DataTableDemo() {
             </div>
           </div>
         </div>}
-    </div>
+    </div >
   ) : <div className="h-screen w-screen">
     <Loading />
   </div>

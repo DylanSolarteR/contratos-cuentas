@@ -6,8 +6,7 @@ import { Input } from "@/components/ui/Input";
 import Designer from "@/components/Designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
-import { addItems, getItems } from "@/actions/Items"
-
+import { getItems } from "@/actions/Items"
 import { getPlantillaById, updatePlantilla, deletePlantilla } from "@/actions/Plantillas"
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";

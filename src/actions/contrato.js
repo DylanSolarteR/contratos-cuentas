@@ -7,6 +7,7 @@ export async function getContratos(axiosInstance, token) {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     Swal.fire({
@@ -66,6 +67,7 @@ export async function descargarContrato(axiosInstance, token, id) {
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", `Contrato_${id}.pdf`); // Nombre del archivo
+    // console.log(link.href);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

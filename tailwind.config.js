@@ -27,7 +27,7 @@ module.exports = {
       },
       colors: {
         light: {
-          fondo: "#eaeaea",
+          fondo: "#EEF2F8",
           texto: "#333333",
           "acento-1": "#017Baa",
           "acento-2": "#66Caca",
