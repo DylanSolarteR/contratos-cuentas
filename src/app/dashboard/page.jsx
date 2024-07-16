@@ -17,7 +17,7 @@ import { getPlantillas } from "@/actions/Plantillas"
 import { useRouter } from "next/navigation";
 import NuevaPlantillaDialog from "@/components/NuevaPlantillaDialog";
 import Loading from "@/components/Loading";
-export default function Historial() {
+export default function Dashboard() {
 
   const { instance, setIsLogged } = useAppContext();
   const [plantillas, setPlantillas] = useState([]);

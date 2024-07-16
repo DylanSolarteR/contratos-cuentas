@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useState, useContext, useEffect } from "react";
 
-const AppContext = createContext();
+export const AppContext = createContext();
 
 export function AppWrapper({ children }) {
   const axios = require('axios').default;
