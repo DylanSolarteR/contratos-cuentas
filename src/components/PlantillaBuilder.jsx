@@ -1,8 +1,8 @@
 "use client";
 import { useAppContext } from "@/context";
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Designer from "@/components/Designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverlayWrapper from "./DragOverlayWrapper";
