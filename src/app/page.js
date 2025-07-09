@@ -90,7 +90,7 @@ export default function Home() {
       >
         <article className="relative flex md:flex-col flex-row gap-2 justify-around items-center">
           <Image
-            src="https://i0.wp.com/wabarnews.org/wp-content/uploads/2021/11/Nov2021_scoop.jpg?fit=1200%2C675&ssl=1"
+            src="https://img.freepik.com/vector-premium/documento-electronico-papel-electronico-oficina-papel-articulo-internet-escribir-archivo-texto-computadora_566886-2358.jpg?w=1380"
             alt="Land2"
             className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow-md ${
               daltonismo === "normal"
@@ -152,7 +152,7 @@ export default function Home() {
         </article>
         <article className="relative flex md:flex-col flex-row gap-2 justify-around items-center">
           <Image
-            src="https://blog.ida.cl/wp-content/uploads/sites/5/2021/04/ExportarPosts-blog-655x470.png"
+            src="https://i0.wp.com/wabarnews.org/wp-content/uploads/2021/11/Nov2021_scoop.jpg?fit=1200%2C675&ssl=1"
             alt="Land2"
             className={`rounded-lg mx-auto max-w-[300px] max-h-[200px] w-full h-full shadow-md ${
               daltonismo === "normal"
